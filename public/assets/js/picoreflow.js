@@ -11,9 +11,9 @@ var time_scale_slope = "s";
 var time_scale_profile = "s";
 var time_scale_long = "Seconds";
 var temp_scale_display = "C";
+var kiln_name;
 var kwh_rate = 0.26;
 var currency_type = "EUR";
-
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
     protocol = 'wss:';
@@ -23,7 +23,20 @@ var ws_status = new WebSocket(host+"/status");
 var ws_control = new WebSocket(host+"/control");
 var ws_config = new WebSocket(host+"/config");
 var ws_storage = new WebSocket(host+"/storage");
-
+// MARK TILLES ADDED
+function SWITCH_KILN() {
+	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
+   	var cmd =
+   	{
+   	    "cmd": "SWITCH_KILN",
+  	 }
+  	 ws_control.send(JSON.stringify(cmd));
+	}
+	else {
+	alert ("Oven Switchover Canceled")
+	}
+}
+// END MARK TILLES ADDED
 
 if(window.webkitRequestAnimationFrame) window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 
@@ -51,7 +64,7 @@ function updateProfile(id)
     selected_profile = id;
     selected_profile_name = profiles[id].name;
     var job_seconds = profiles[id].data.length === 0 ? 0 : parseInt(profiles[id].data[profiles[id].data.length-1][0]);
-    var kwh = (3850*job_seconds/3600/1000).toFixed(2);
+    var kwh = (oven_kw*job_seconds/3600/1000).toFixed(2);
     var cost =  (kwh*kwh_rate).toFixed(2);
     var job_time = new Date(job_seconds * 1000).toISOString().substr(11, 8);
     $('#sel_prof').html(profiles[id].name);
@@ -549,23 +562,62 @@ $(document).ready(function()
                     $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 40px;">' + eta + '</span>');
                     $('#target_temp').html(parseInt(x.target));
 
+                    // MARK TILLES turn on running status icon
+                    $('#cool').addClass("ds-led-hazard-active");
+
+                    // MARK TILLES add compare if / else if statements
+                    //if (x.heat > 1.9) { // WAS: if (x.heat > 0.0)
+                    if (x.heat > 0.0) { // WAS: if (x.heat > 0.0)
+                    // I want blinking red like original when full blast on
+	                $('#heat').removeClass("ds-led-hazard-active"); // remove yellow  hazard color
+	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
+	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
+                    }
+                    // I want blinking yellow when heater is on but not full blast
+                    //else if (x.heat > 0.0) {
+	            //    setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
+	            //    setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
+                    //}
 
                 }
-                else
+                else // NOT RUNNING
                 {
                     $("#nav_start").show();
                     $("#nav_stop").hide();
                     $('#state').html('<p class="ds-text">'+state+'</p>');
+
+                    // MARK TILLES turn off running status icon
+                    $('#cool').removeClass("ds-led-hazard-active");
+
+                    // FOR VISUAL TESTING
+                    //setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
+                    //setTimeout(function() { $('#cool').addClass("ds-led-heat-active") }, 0 )
+                    //setTimeout(function() { $('#air').addClass("ds-led-heat-active") }, 0 )
+                    //setTimeout(function() { $('#hazard').addClass("ds-led-heat-active") }, 0 )
+                    //setTimeout(function() { $('#door').addClass("ds-led-heat-active") }, 0 )
                 }
 
                 $('#act_temp').html(parseInt(x.temperature));
                 $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
                 if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
                 if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
-                if (x.temperature > hazardTemp()) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
+
+                // MARK TILLES
+                // THIS NEXT ONE WORKS. BUT hazardtemp is hard coded above, and WHY CANT I READ IN THE EMERGENCY_SHUTOFF_TEMP FROM CONFIG.PY ???
+                //if (x.temperature > 25) { $('#hazard').addClass("ds-led-heat-active"); } else { $('#hazard').removeClass("ds-led-heat-active"); }
+                //if (x.temperature > hazardTemp()) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
+                //if (x.temperature > emergency_shutoff_temp) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
+                $("#kiln_name").html(kiln_name);
+
+                console.log (hazardTemp);
+                console.log (test_emergency_console_temp);
+                console.log (kiln_name);
+
+
                 if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
 
                 state_last = state;
+
 
             }
         };
@@ -585,7 +637,12 @@ $(document).ready(function()
             time_scale_slope = x.time_scale_slope;
             time_scale_profile = x.time_scale_profile;
             kwh_rate = x.kwh_rate;
+            oven_kw = x.oven_kw;
             currency_type = x.currency_type;
+            // MARK TILLES ADDED
+            kiln_name = x.kiln_name;
+            emergency_stop_temp = x.emergency_stop_temp; // the other variable emergency_shutoff_temp doesn't get read here for some reason
+            // END MARK TILLES ADDED
 
             if (temp_scale == "c") {temp_scale_display = "C";} else {temp_scale_display = "F";}
 

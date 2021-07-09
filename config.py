@@ -1,3 +1,7 @@
+##### CHEMATEX *****
+##### CHEMATEX *****
+##### CHEMATEX *****
+
 import logging
 import os
 
@@ -17,9 +21,13 @@ listening_ip = "0.0.0.0"
 listening_port = 8081
 
 ### Cost Estimate
-kwh_rate        = 0.1319  # Rate in currency_type to calculate cost to run job
-currency_type   = "$"   # Currency Symbol to show when calculating cost to run job
+# Mark's cost June 2021 Vattenfall all taxes and fees SEK 42,64 => 42,64 /kWt
+kwh_rate        = 1.0380  # Rate in currency_type to calculate cost to run job
+currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
+oven_kw         = 10000   # kW capacity of oven
 
+kiln_name = "Chematex"
+emergency_stop_temp = "12" # This is read by kiln-controller.py and then picoreflow.js. The emergency_shutoff_temp is not read by pico...
 ########################################################################
 #
 #   GPIO Setup (BCM SoC Numbering Schema)
@@ -35,24 +43,24 @@ gpio_heat = 23  # Switches zero-cross solid-state-relay
 ### Thermocouple Adapter selection:
 #   max31855 - bitbang SPI interface
 #   max31856 - bitbang SPI interface. must specify thermocouple_type.
-max31855 = 1
-max31856 = 0
+max31855 = 0
+max31856 = 1
 # see lib/max31856.py for other thermocouple_type, only applies to max31856
 # uncomment this if using MAX-31856
 #thermocouple_type = MAX31856.MAX31856_S_TYPE
 
-### Thermocouple Connection (using bitbang interfaces)
-gpio_sensor_cs = 27
-gpio_sensor_clock = 22
-gpio_sensor_data = 17
+### Thermocouple Connection
+gpio_sensor_cs = 5
+gpio_sensor_clock = 11
+gpio_sensor_data = 9
 gpio_sensor_di = 10 # only used with max31856
 
 ########################################################################
 #
 # duty cycle of the entire system in seconds
-# 
-# Every N seconds a decision is made about switching the relay[s] 
-# on & off and for how long. The thermocouple is read 
+#
+# Every N seconds a decision is made about switching the relay[s]
+# on & off and for how long. The thermocouple is read
 # temperature_average_samples times during and the average value is used.
 sensor_time_wait = 2
 
@@ -62,13 +70,13 @@ sensor_time_wait = 2
 #   PID parameters
 #
 # These parameters control kiln temperature change. These settings work
-# well with the simulated oven. You must tune them to work well with 
+# well with the simulated oven. You must tune them to work well with
 # your specific kiln. Note that the integral pid_ki is
 # inverted so that a smaller number means more integral action.
-pid_kp = 25   # Proportional 25,200,200
-pid_ki = 10   # Integral
-pid_kd = 200  # Derivative
-
+# Marks earlier values
+pid_kp = 100  # Proportional
+pid_ki = 400  # Integral
+pid_kd = 800  # Derivative
 
 ########################################################################
 #
@@ -81,7 +89,7 @@ stop_integral_windup = True
 ########################################################################
 #
 #   Simulation parameters
-simulate = True
+simulate = False
 sim_t_env      = 60.0   # deg C
 sim_c_heat     = 500.0  # J/K  heat capacity of heat element
 sim_c_oven     = 5000.0 # J/K  heat capacity of oven
@@ -99,7 +107,7 @@ sim_R_ho_air   = 0.05   # K/W  " with internal air circulation
 # If you change the temp_scale, all settings in this file are assumed to
 # be in that scale.
 
-temp_scale          = "f" # c = Celsius | f = Fahrenheit - Unit to display
+temp_scale          = "c" # c = Celsius | f = Fahrenheit - Unit to display
 time_scale_slope    = "h" # s = Seconds | m = Minutes | h = Hours - Slope displayed in temp_scale per time_scale_slope
 time_scale_profile  = "m" # s = Seconds | m = Minutes | h = Hours - Enter and view target time in time_scale_profile
 
@@ -108,21 +116,22 @@ time_scale_profile  = "m" # s = Seconds | m = Minutes | h = Hours - Enter and vi
 # naturally cool off. If your SSR has failed/shorted/closed circuit, this
 # means your kiln receives full power until your house burns down.
 # this should not replace you watching your kiln or use of a kiln-sitter
-emergency_shutoff_temp = 2264 #cone 7
+emergency_shutoff_temp = 1270 #cone 7
+##emergency_shutoff_temp = 12 #cone 7
 
 # If the current temperature is outside the pid control window,
 # delay the schedule until it does back inside. This allows for heating
 # and cooling as fast as possible and not continuing until temp is reached.
 kiln_must_catch_up = True
 
-# This setting is required. 
+# This setting is required.
 # This setting defines the window within which PID control occurs.
 # Outside this window (N degrees below or above the current target)
 # the elements are either 100% on because the kiln is too cold
 # or 100% off because the kiln is too hot. No integral builds up
 # outside the window. The bigger you make the window, the more
 # integral you will accumulate.
-pid_control_window = 5 #degrees 
+pid_control_window = 5 #degrees
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can
@@ -130,20 +139,20 @@ pid_control_window = 5 #degrees
 # cheap thermocouple.  Invest in a better thermocouple.
 thermocouple_offset=0
 
-# some kilns/thermocouples start erroneously reporting "short" 
+# some kilns/thermocouples start erroneously reporting "short"
 # errors at higher temperatures due to plasma forming in the kiln.
-# Set this to False to ignore these errors and assume the temperature 
+# Set this to False to ignore these errors and assume the temperature
 # reading was correct anyway
 honour_theromocouple_short_errors = False
 
 # number of samples of temperature to average.
-# If you suffer from the high temperature kiln issue and have set 
+# If you suffer from the high temperature kiln issue and have set
 # honour_theromocouple_short_errors to False,
 # you will likely need to increase this (eg I use 40)
-temperature_average_samples = 40 
+temperature_average_samples = 40
 
 # Thermocouple AC frequency filtering - set to True if in a 50Hz locale, else leave at False for 60Hz locale
-ac_freq_50hz = False
+ac_freq_50hz = True
 
 # There are all kinds of emergencies that can happen including:
 # - temperature is too high (emergency_shutoff_temp exceeded)
@@ -166,4 +175,3 @@ ignore_emergencies = False
 automatic_restarts = True
 automatic_restart_window = 15 # max minutes since power outage
 automatic_restart_state_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ),'state.json'))
-

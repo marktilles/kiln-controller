@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+#### MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+from gpiozero import Button, LEDBoard
+from signal import pause
+import warnings, os, sys
+green_ledGPIO = 6
+green_led=LEDBoard(green_ledGPIO)
+green_led.blink(on_time=1, off_time=1)
+#kiln_name = 'Hello'
+#### END - MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+
 import os
 import sys
 import logging
@@ -131,6 +141,19 @@ def get_websocket_from_request():
     return wsock
 
 
+#@app.route('/config')
+#def handle_config():
+#    wsock = get_websocket_from_request()
+#    log.info("websocket (config) opened")
+#    while True:
+#        try:
+#            message = wsock.receive()
+#            wsock.send(get_config())
+#        except WebSocketError:
+#            break
+#    log.info("websocket (config) closed")
+
+
 @app.route('/control')
 def handle_control():
     wsock = get_websocket_from_request()
@@ -163,10 +186,34 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
+                # Added by Henrik for MARK TILLES
+                elif msgdict.get("cmd") == "SWITCH_KILN":
+                    if config.kiln_name == "Chematex":
+                       log.info("Switching KILN to Rhode kiln")
+                       oven.abort_run()
+                       os.system ("/home/pi/mark_scripts/rhode &")
+                       # TODO: add system call to actually switch
+                    else:
+                       log.info("Switching KILN to Chematex kiln")
+                       oven.abort_run()
+                       os.system ("/home/pi/mark_scripts/chematex &")
+                       # TODO: add system call to actually switch
+                ## Added by Henrik for MARK TILLES
+                #elif msgdict.get("cmd") == "MARK_SWITCH_TO_CHEMATEX":
+                #    log.info("Switching to Chematex kiln")
+                #    oven.abort_run()
+                #    os.system ("/home/pi/mark_scripts/chematex &")
+                #    # TODO: add system call to actually switch
+                #    # Added by Henrik for MARK TILLES
+                #elif msgdict.get("cmd") == "MARK_SWITCH_TO_RHODE":
+                #    log.info("Switching to Rhode kiln")
+                #    oven.abort_run()
+                #    os.system ("/home/pi/mark_scripts/rhode &")
+                #    # TODO: add system call to actually switch
         except WebSocketError as e:
             log.error(e)
             break
-    log.info("websocket (control) closed")
+    log.info("we bsocket (control) closed")
 
 
 @app.route('/storage')
@@ -281,7 +328,10 @@ def get_config():
         "time_scale_slope": config.time_scale_slope,
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
-        "currency_type": config.currency_type})    
+        "oven_kw": config.oven_kw,
+        "currency_type": config.currency_type,
+        "kiln_name": config.kiln_name,
+        "emergency_stop_temp": config.emergency_stop_temp})
 
 
 def main():
