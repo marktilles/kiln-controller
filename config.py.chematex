@@ -22,8 +22,7 @@ listening_port = 8081
 kwh_rate        = 1.0380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
 oven_kw         = 10000   # kW capacity of oven
-
-kiln_name = "Chematex"
+kiln_name 	= "Chematex"
 emergency_stop_temp = "12" # This is read by kiln-controller.py and then picoreflow.js. The emergency_shutoff_temp is not read by pico...
 ########################################################################
 #
