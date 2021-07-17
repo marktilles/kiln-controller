@@ -73,8 +73,17 @@ sensor_time_wait = 2
 # your specific kiln. Note that the integral pid_ki is
 # inverted so that a smaller number means more integral action.
 # Marks earlier values
-pid_kp = 50   # Proportional
-pid_ki = 400  # Integral
+
+# My notes from July 18 burn:
+# I have continual oscillations until the system can’t keep up with the target temp.
+# At top temp I never reach the target temp, always 2C under.
+
+# If you have oscillations that don't stop or increase in size, reduce pid_kp
+# If you have an oscillation but the temperature is mostly below the setpoint, decrease pid_ki.
+#
+#NEW VALUES FOR NEXT BURN
+pid_kp = 40   # Proportional was 50
+pid_ki = 300  # Integral was 400
 pid_kd = 800  # Derivative
 
 ########################################################################
