@@ -8,7 +8,7 @@ scp public/control.html pi@192.168.0.12:/home/pi/kiln-controller/public/control.
 scp public/index.html pi@192.168.0.12:/home/pi/kiln-controller/public/index.html
 scp public/assets/js/picoreflow.js pi@192.168.0.12:/home/pi/kiln-controller/public/assets/js/picoreflow.js
 
-#scp config.py.rhode pi@192.168.0.12:/home/pi/kiln-controller/config.py
+scp config.py.rhode pi@192.168.0.12:/home/pi/kiln-controller/config.py
 scp kiln-controller.py pi@192.168.0.12:/home/pi/rhode/kiln-controller.py
 scp public/control.html pi@192.168.0.12:/home/pi/rhode/public/control.html
 scp public/index.html pi@192.168.0.12:/home/pi/rhode/public/index.html
