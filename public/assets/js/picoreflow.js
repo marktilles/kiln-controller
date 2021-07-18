@@ -562,10 +562,12 @@ $(document).ready(function()
                     $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 40px;">' + eta + '</span>');
                     $('#target_temp').html(parseInt(x.target));
 
-                    // MARK TILLES turn on running status icon
+                    // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
+                    // Turn on/off relabeled web page icons, now labeled running and idle
                     $('#cool').addClass("ds-led-hazard-active");
+                    $('#air').removeClass("ds-led-hazard-active");
 
-                    // MARK TILLES add compare if / else if statements
+                    // Add compare statements, I want to show different heating icon depending on amount of heating
                     //if (x.heat > 1.9) { // WAS: if (x.heat > 0.0)
                     if (x.heat > 0.0) { // WAS: if (x.heat > 0.0)
                     // I want blinking red like original when full blast on
@@ -578,46 +580,45 @@ $(document).ready(function()
 	            //    setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
 	            //    setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
                     //}
+                    // END - MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
 
                 }
-                else // NOT RUNNING
+                else // KILN HEATING CURVE NOT RUNNING
                 {
                     $("#nav_start").show();
                     $("#nav_stop").hide();
                     $('#state').html('<p class="ds-text">'+state+'</p>');
 
                     // MARK TILLES turn off running status icon
+                    $('#air').addClass("ds-led-hazard-active");
                     $('#cool').removeClass("ds-led-hazard-active");
-
-                    // FOR VISUAL TESTING
-                    //setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
-                    //setTimeout(function() { $('#cool').addClass("ds-led-heat-active") }, 0 )
-                    //setTimeout(function() { $('#air').addClass("ds-led-heat-active") }, 0 )
-                    //setTimeout(function() { $('#hazard').addClass("ds-led-heat-active") }, 0 )
-                    //setTimeout(function() { $('#door').addClass("ds-led-heat-active") }, 0 )
                 }
+
+                // THE FOLLOWING, ALL CASES, RUNNNING OR NOT
 
                 $('#act_temp').html(parseInt(x.temperature));
                 $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
                 if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
                 if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
 
-                // MARK TILLES
-                // THIS NEXT ONE WORKS. BUT hazardtemp is hard coded above, and WHY CANT I READ IN THE EMERGENCY_SHUTOFF_TEMP FROM CONFIG.PY ???
-                //if (x.temperature > 25) { $('#hazard').addClass("ds-led-heat-active"); } else { $('#hazard').removeClass("ds-led-heat-active"); }
+                // MARK TILLES CHANGE EMERGENCY BEHAVIOR
+                // hazardtemp is hard coded above, iwhy use that. Need to import proper variable emergency_shutoff_temp instead and use that instead.
                 //if (x.temperature > hazardTemp()) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
-                //if (x.temperature > emergency_shutoff_temp) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
-                $("#kiln_name").html(kiln_name);
-
-                console.log (hazardTemp);
-                console.log (test_emergency_console_temp);
-                console.log (kiln_name);
-
+                if (x.temperature > emergency_shutoff_temp - 5)
+                {
+                    // WE ARE APPROACHING WITHIN 5 DEGREES OF EMERGENCY TEMPERATURE
+                    $('#hazard').addClass("ds-led-heat-active");
+                    //ADD SEND EMAIL, TRIGGER GPIO SIREN WARNING SYSTEM, OR OTHER FUNCTIONS HERE IN CASE OF REAL EMERGENCY
+                }
+                else
+                {
+                    $('#hazard').removeClass("ds-led-hazard-active");
+                }
+                //END - MARK TILLES CHANGE EMERGENCY BEHAVIOR
 
                 if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
 
                 state_last = state;
-
 
             }
         };
@@ -640,9 +641,27 @@ $(document).ready(function()
             oven_kw = x.oven_kw;
             currency_type = x.currency_type;
             // MARK TILLES ADDED
+            pid_kp = x.pid_kp;
+            pid_ki = x.pid_ki;
+            pid_kd = x.pid_kd;
             kiln_name = x.kiln_name;
-            emergency_stop_temp = x.emergency_stop_temp; // the other variable emergency_shutoff_temp doesn't get read here for some reason
-            // END MARK TILLES ADDED
+            emergency_shutoff_temp = x.emergency_shutoff_temp; // make variable emergency_shutoff_tempavailable here
+            kiln_must_catch_up = x.kiln_must_catch_up;
+            kiln_must_catch_up_max_error = x.kiln_must_catch_up_max_error;
+            $("#pid_kp").html(pid_kp); // Define variable for web instance
+            $("#pid_ki").html(pid_ki); // Define variable for web instance
+            $("#pid_kd").html(pid_kd); // Define variable for web instance
+            $("#kiln_name").html(kiln_name); // Define variable for web instance
+            $("#emerg_temp").html(emergency_shutoff_temp); // Define variable for web instance
+            if (kiln_must_catch_up == true)
+            {
+                $("#catch_up_max").html(kiln_must_catch_up_max_error); // Define variable for web instance
+            }
+            else
+            {
+                $("#catch_up_max").html("off"); // Define variable for web instance
+            }
+            // END - MARK TILLES ADDED
 
             if (temp_scale == "c") {temp_scale_display = "C";} else {temp_scale_display = "F";}
 

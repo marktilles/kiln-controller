@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
-#### MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+# ADDED BY MARK TILLES TO START BLINKING GREEN LED WHEN SERVICE IS RUNNING
 from gpiozero import Button, LEDBoard
 from signal import pause
 import warnings, os, sys
 green_ledGPIO = 6
 green_led=LEDBoard(green_ledGPIO)
 green_led.blink(on_time=1, off_time=1)
-#kiln_name = 'Hello'
-#### END - MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+# END - ADDED BY MARK TILLES TO START BLINKING GREEN LED WHEN SERVICE IS RUNNING
 
 import os
 import sys
@@ -186,30 +185,17 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
-                # Added by Henrik for MARK TILLES
+                # ASSISTED BY HENRIK FOR MARK TILLES
                 elif msgdict.get("cmd") == "SWITCH_KILN":
                     if config.kiln_name == "Chematex":
                        log.info("Switching KILN to Rhode kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/rhode &")
-                       # TODO: add system call to actually switch
                     else:
                        log.info("Switching KILN to Chematex kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/chematex &")
-                       # TODO: add system call to actually switch
-                ## Added by Henrik for MARK TILLES
-                #elif msgdict.get("cmd") == "MARK_SWITCH_TO_CHEMATEX":
-                #    log.info("Switching to Chematex kiln")
-                #    oven.abort_run()
-                #    os.system ("/home/pi/mark_scripts/chematex &")
-                #    # TODO: add system call to actually switch
-                #    # Added by Henrik for MARK TILLES
-                #elif msgdict.get("cmd") == "MARK_SWITCH_TO_RHODE":
-                #    log.info("Switching to Rhode kiln")
-                #    oven.abort_run()
-                #    os.system ("/home/pi/mark_scripts/rhode &")
-                #    # TODO: add system call to actually switch
+                # END - ASSISTED BY HENRIK FOR MARK TILLES 
         except WebSocketError as e:
             log.error(e)
             break
@@ -328,11 +314,17 @@ def get_config():
         "time_scale_slope": config.time_scale_slope,
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
-        "oven_kw": config.oven_kw,
         "currency_type": config.currency_type,
+        # ADDED BY MARK TILLES
+        "pid_kp": config.pid_kp,
+        "pid_ki": config.pid_ki,
+        "pid_kd": config.pid_kd,
+        "oven_kw": config.oven_kw,
         "kiln_name": config.kiln_name,
-        "emergency_stop_temp": config.emergency_stop_temp})
-
+        "kiln_must_catch_up": config.kiln_must_catch_up,
+        "kiln_must_catch_up_max_error": config.kiln_must_catch_up_max_error,
+        "emergency_shutoff_temp": config.emergency_shutoff_temp})
+        # END - ADDED BY MARK TILLES
 
 def main():
     ip = config.listening_ip
