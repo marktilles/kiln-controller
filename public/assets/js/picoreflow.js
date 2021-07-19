@@ -33,7 +33,7 @@ function SWITCH_KILN() {
   	 ws_control.send(JSON.stringify(cmd));
 	}
 	else {
-	alert ("Oven Switchover Canceled")
+	alert ("Kiln Switchover Canceled")
 	}
 }
 // END MARK TILLES ADDED

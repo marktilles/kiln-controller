@@ -27,14 +27,15 @@
 
 <br><center><font size = "+4" color = "green"><font color = "blue"> D</font><font color = "orange">r</font><font color = "purple">E</font><font color = "yellow">j</font><font color = "red">S</font><font color = "green">t</font><font color = "blue">U</font><font color = "orange">g</font><font color = "purple">A</font><font color ="red"> F</font><font color = "green">u</font><font color = "yellow">N</font><font color = "blue">!</font></font><font size = "+2" color ="green"><i><br>i Upplands Väsby</i></font></center>
 
-<center><font color = "blue" size = "+2">Oven: <b><span id="kiln_name"></span></b> ... Ensure switches and power cord are in proper positions</font></center>
-<center><a href="http://192.168.0.12:8081/picoreflow/control.html" onClick="SWITCH_KILN();">Switch Kiln</a></font></center>
+<center><font color = "blue" size = "+0">Kiln Controller: Ensure switches and power cord are in proper positions</font></center>
 
  <div class="container">
   <div id="status">
    <div class="ds-title-panel">
     <div class="ds-title">Sensor Temp</div>
 <div class="ds-title">Target Temp</div>
+<div class="ds-title">Kiln<font color = "red"><b> <span id="kiln_name"></span></b></font></div>
+<div class="ds-title"><b><a onClick="SWITCH_KILN();">Switch Kiln</a></b></div>
 <div class="ds-title">PID <span id="pid_kp"></span> <span id="pid_ki"></span> <span id="pid_kd"></span></div>
 <div class="ds-title">Emerg off at <span id="emerg_temp"></span></div>
 <div class="ds-title">Catch-up max <span id="catch_up_max"></span></div>
