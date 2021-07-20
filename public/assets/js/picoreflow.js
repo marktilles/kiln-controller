@@ -11,7 +11,7 @@ var time_scale_slope = "s";
 var time_scale_profile = "s";
 var time_scale_long = "Seconds";
 var temp_scale_display = "C";
-var kiln_name;
+//var kiln_name;
 var kwh_rate = 0.26;
 var currency_type = "EUR";
 var protocol = 'ws:';
