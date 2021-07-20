@@ -11,7 +11,6 @@ var time_scale_slope = "s";
 var time_scale_profile = "s";
 var time_scale_long = "Seconds";
 var temp_scale_display = "C";
-//var kiln_name;
 var kwh_rate = 0.26;
 var currency_type = "EUR";
 var protocol = 'ws:';
@@ -24,6 +23,8 @@ var ws_control = new WebSocket(host+"/control");
 var ws_config = new WebSocket(host+"/config");
 var ws_storage = new WebSocket(host+"/storage");
 // MARK TILLES ADDED
+var oven_kw = 0;
+var emergency_shutoff_temp = 0;
 function SWITCH_KILN() {
 	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
    	var cmd =
