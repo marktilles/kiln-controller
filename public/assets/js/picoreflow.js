@@ -608,7 +608,7 @@ $(document).ready(function()
                 // MARK TILLES CHANGE EMERGENCY BEHAVIOR
                 // hazardtemp is hard coded above, iwhy use that. Need to import proper variable emergency_shutoff_temp instead and use that instead.
                 //if (x.temperature > hazardTemp()) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
-                if (x.temperature > emergency_shutoff_temp - 5)
+                if (x.temperature > warnat)
                 {
                     // WE ARE APPROACHING WITHIN 5 DEGREES OF EMERGENCY TEMPERATURE
                     $('#hazard').addClass("ds-led-heat-active");
@@ -650,6 +650,7 @@ $(document).ready(function()
             pid_kd = x.pid_kd;
             kiln_name = x.kiln_name;
             emergency_shutoff_temp = x.emergency_shutoff_temp; // make variable emergency_shutoff_tempavailable here
+            warnat = emergency_shutoff_temp -5; // make variable emergency_shutoff_tempavailable here
             kiln_must_catch_up = x.kiln_must_catch_up;
             kiln_must_catch_up_max_error = x.kiln_must_catch_up_max_error;
             $("#pid_kp").html(pid_kp); // Define variable for web instance
@@ -657,6 +658,7 @@ $(document).ready(function()
             $("#pid_kd").html(pid_kd); // Define variable for web instance
             $("#kiln_name").html(kiln_name); // Define variable for web instance
             $("#emerg_temp").html(emergency_shutoff_temp); // Define variable for web instance
+            $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {
                 $("#catch_up_max").html(kiln_must_catch_up_max_error); // Define variable for web instance
