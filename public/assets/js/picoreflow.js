@@ -23,8 +23,8 @@ var ws_control = new WebSocket(host+"/control");
 var ws_config = new WebSocket(host+"/config");
 var ws_storage = new WebSocket(host+"/storage");
 // MARK TILLES ADDED
-var oven_kw = 0;
-var emergency_shutoff_temp = 0;
+var oven_kw;
+var emergency_shutoff_temp;
 function SWITCH_KILN() {
 	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
    	var cmd =
