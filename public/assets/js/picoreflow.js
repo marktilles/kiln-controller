@@ -565,23 +565,24 @@ $(document).ready(function()
                     
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
-                    $('#cool').addClass("ds-led-hazard-active");
-                    $('#air').removeClass("ds-led-hazard-active");
-
+                    $('#cool').addClass("ds-led-hazard-active");   // RUNNING
+                    $('#air').removeClass("ds-led-hazard-active"); // IDLE
 
                     // Add compare statements, I want to show different heating icon depending on amount of heating
-                    //if (x.heat > 1.9) { // WAS: if (x.heat > 0.0)
-                    if (x.heat > 0.0) { // WAS: if (x.heat > 0.0)
+                    pid_now = x.heat;
+                    pid = pid_now.toFixed(2);
+
+                    $("#pid_now").html(pid); // Define variable for web instance
+                    if (pid > 1.99) { 
                     // I want blinking red like original when full blast on
-	                $('#heat').removeClass("ds-led-hazard-active"); // remove yellow  hazard color
 	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
 	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
                     }
                     // I want blinking yellow when heater is on but not full blast
-                    //else if (x.heat > 0.0) {
-	            //    setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
-	            //    setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
-                    //}
+                    else if (pid > 0.0) {
+	                setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
+	                setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
+                    }
                     // END - MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
 
                 }
@@ -592,20 +593,17 @@ $(document).ready(function()
                     $('#state').html('<p class="ds-text">'+state+'</p>');
                     
                     // MARK TILLES turn off running status icon
-                    $('#air').addClass("ds-led-hazard-active");
-                    $('#cool').removeClass("ds-led-hazard-active");
+                    $("#pid_now").html("off"); // Oven is not running, no pid value to read
+                    $('#air').addClass("ds-led-hazard-active");     // IDLE
+                    $('#cool').removeClass("ds-led-hazard-active"); // RUNNING
                 }
 
                 // THE FOLLOWING, ALL CASES, RUNNNING OR NOT
 
-                pid_now = x.heat;
-                pid = pid_now.toFixed(2);
-                $("#pid_now").html(pid); // Define variable for web instance
-
                 $('#act_temp').html(parseInt(x.temperature));
 
-                if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
-                if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
+                //if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
+                //if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
 
                 // MARK TILLES CHANGE EMERGENCY BEHAVIOR
                 // hazardtemp is hard coded above, iwhy use that. Need to import proper variable emergency_shutoff_temp instead and use that instead.
@@ -622,7 +620,7 @@ $(document).ready(function()
                 }
                 //END - MARK TILLES CHANGE EMERGENCY BEHAVIOR
 
-                if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
+                //if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
 
                 state_last = state;
 
