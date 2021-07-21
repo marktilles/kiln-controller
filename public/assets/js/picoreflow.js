@@ -568,6 +568,7 @@ $(document).ready(function()
                     $('#cool').addClass("ds-led-hazard-active");
                     $('#air').removeClass("ds-led-hazard-active");
 
+
                     // Add compare statements, I want to show different heating icon depending on amount of heating
                     //if (x.heat > 1.9) { // WAS: if (x.heat > 0.0)
                     if (x.heat > 0.0) { // WAS: if (x.heat > 0.0)
@@ -596,6 +597,10 @@ $(document).ready(function()
                 }
 
                 // THE FOLLOWING, ALL CASES, RUNNNING OR NOT
+
+                pid_now = x.heat;
+                pid = pid_now.toFixed(2);
+                $("#pid_now").html(pid); // Define variable for web instance
 
                 $('#act_temp').html(parseInt(x.temperature));
                 $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
