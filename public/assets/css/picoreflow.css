@@ -81,6 +81,19 @@ body {
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.75);
 }
 
+.ds-title-small {
+    display: inline-block;
+    font-size: 10px;
+    height: 18px;
+    line-height: 18px;
+    width: 85px;
+    border-right: 1px solid #b9b6af;
+    vertical-align: top;
+    text-align: center;
+    color: #8B8989;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.75);
+}
+
 .ds-num {
     width: 100px;
     font-family: "Digi";

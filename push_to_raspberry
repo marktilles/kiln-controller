@@ -12,6 +12,7 @@ scp config.py.rhode pi@192.168.0.12:/home/pi/rhode/config.py
 scp kiln-controller.py pi@192.168.0.12:/home/pi/rhode/kiln-controller.py
 scp public/control.html pi@192.168.0.12:/home/pi/rhode/public/control.html
 scp public/index.html pi@192.168.0.12:/home/pi/rhode/public/index.html
+scp public/assets/css/picoreflow.css pi@192.168.0.12:/home/pi/kiln-controller/public/assets/css
 scp public/assets/js/picoreflow.js pi@192.168.0.12:/home/pi/rhode/public/assets/js/picoreflow.js
 
 
