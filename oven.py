@@ -224,7 +224,7 @@ class Oven(threading.Thread):
             # kiln too hot, wait for it to cool down
             ### MARK TILLES MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
             ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
-            ### ABOVE SENSOR TEMP SO I WANT THE CURVE TO CONTINUE PREOGRESSING ANYWAY. SET A FIXED VALUE:
+            ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
             #if temp - self.target > config.kiln_must_catch_up_max_error:
             if (temp > 100) and (temp - self.target > config.kiln_must_catch_up_max_error):
                 log.info("kiln must catch up, too hot, shifting schedule")
