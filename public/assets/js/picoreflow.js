@@ -541,7 +541,7 @@ $(document).ready(function()
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                         align: 'center', // ('left', 'right', or 'center')
                         width: 385, // (integer, or 'auto')
-                        delay: 5000,
+                        delay: 0,
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                         });

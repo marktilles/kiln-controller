@@ -141,6 +141,7 @@ emergency_shutoff_temp = 1270 #cone 7
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
 kiln_must_catch_up_max_error = 5 #degrees
+kiln_must_catch_up_start_temp = 60 # degrees, ignore overswings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can

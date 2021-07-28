@@ -226,10 +226,14 @@ class Oven(threading.Thread):
             ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
             ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
             #if temp - self.target > config.kiln_must_catch_up_max_error:
-            if (temp > 100) and (temp - self.target > config.kiln_must_catch_up_max_error):
+            if (temp >= config.kiln_must_catch_up_start_temp) and (temp - self.target > config.kiln_must_catch_up_max_error):
                 log.info("kiln must catch up, too hot, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
+            # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
+            else:
+                if (temp < config.kiln_must_catch_up_start_temp) and (temp - self.target > config.kiln_must_catch_up_max_error):
+                    log.info("kiln catch-up enabled, but retaining schedule unless temp exceeds config.kiln_must_catch_up_start_temp")
 
     def update_runtime(self):
         runtime_delta = datetime.datetime.now() - self.start_time
