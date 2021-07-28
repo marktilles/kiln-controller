@@ -78,7 +78,7 @@ def handle_api():
 
         # start at a specific minute in the schedule
         # for restarting and skipping over early parts of a schedule
-        startat = 0;      
+        startat = 0;
         if 'startat' in bottle.request.json:
             startat = bottle.request.json['startat']
 
@@ -195,7 +195,7 @@ def handle_control():
                        log.info("Switching KILN to Chematex kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/chematex &")
-                # END - ASSISTED BY HENRIK FOR MARK TILLES 
+                # END - ASSISTED BY HENRIK FOR MARK TILLES
         except WebSocketError as e:
             log.error(e)
             break
@@ -322,7 +322,7 @@ def get_config():
         "oven_kw": config.oven_kw,
         "kiln_name": config.kiln_name,
         "kiln_must_catch_up": config.kiln_must_catch_up,
-        "kiln_must_catch_up_max_error": config.kiln_must_catch_up_max_error,
+        "pid_control_window": config.pid_control_window,
         "emergency_shutoff_temp": config.emergency_shutoff_temp})
         # END - ADDED BY MARK TILLES
 

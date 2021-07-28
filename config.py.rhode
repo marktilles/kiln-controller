@@ -19,7 +19,7 @@ listening_port = 8081
 
 ### Cost Estimate
 # Mark's cost June 2021 Vattenfall all taxes and fees SEK 42,64 => 42,64 /kWt
-# Mark's cost June 2021 EON all taxes and fees SEK 383,75/mo * 12/18000 = 2,26 kr/kWt, elöverföring 58,90/kWt 
+# Mark's cost June 2021 EON all taxes and fees SEK 383,75/mo * 12/18000 = 2,26 kr/kWt, elöverföring 58,90/kWt
 # Total thus 42,64 + 2,26 + 58,90 = 103,80 kr/kWt/kWt
 kwh_rate        = 1.0380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
@@ -55,9 +55,9 @@ gpio_sensor_di = 10 # only used with max31856
 ########################################################################
 #
 # duty cycle of the entire system in seconds
-# 
-# Every N seconds a decision is made about switching the relay[s] 
-# on & off and for how long. The thermocouple is read 
+#
+# Every N seconds a decision is made about switching the relay[s]
+# on & off and for how long. The thermocouple is read
 # temperature_average_samples times during and the average value is used.
 sensor_time_wait = 2
 
@@ -67,7 +67,7 @@ sensor_time_wait = 2
 #   PID parameters
 #
 # These parameters control kiln temperature change. These settings work
-# well with the simulated oven. You must tune them to work well with 
+# well with the simulated oven. You must tune them to work well with
 # your specific kiln. Note that the integral pid_ki is
 # inverted so that a smaller number means more integral action.
 pid_kp = 20   # Proportional
@@ -119,12 +119,13 @@ time_scale_profile  = "m" # s = Seconds | m = Minutes | h = Hours - Enter and vi
 emergency_shutoff_temp = 1270 #cone 7
 
 # If the kiln cannot heat or cool fast enough and is off by more than
-# kiln_must_catch_up_max_error  the entire schedule is shifted until
+# pid_control_window  the entire schedule is shifted until
 # the desired temperature is reached. If your kiln cannot attain the
 # wanted temperature, the schedule will run forever. This is often used
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
-kiln_must_catch_up_max_error = 5 #degrees
+pid_control_window = 5 #degrees
+pid_control_window_ignore_until = 60 # degrees, ignore overswings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can
@@ -132,17 +133,17 @@ kiln_must_catch_up_max_error = 5 #degrees
 # cheap thermocouple.  Invest in a better thermocouple.
 thermocouple_offset=0
 
-# some kilns/thermocouples start erroneously reporting "short" 
+# some kilns/thermocouples start erroneously reporting "short"
 # errors at higher temperatures due to plasma forming in the kiln.
-# Set this to False to ignore these errors and assume the temperature 
+# Set this to False to ignore these errors and assume the temperature
 # reading was correct anyway
 honour_theromocouple_short_errors = False
 
 # number of samples of temperature to average.
-# If you suffer from the high temperature kiln issue and have set 
+# If you suffer from the high temperature kiln issue and have set
 # honour_theromocouple_short_errors to False,
 # you will likely need to increase this (eg I use 40)
-temperature_average_samples = 40 
+temperature_average_samples = 40
 
 # Thermocouple AC frequency filtering - set to True if in a 50Hz locale, else leave at False for 60Hz locale
 ac_freq_50hz = True

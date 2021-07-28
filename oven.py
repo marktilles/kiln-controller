@@ -217,7 +217,7 @@ class Oven(threading.Thread):
             temp = self.board.temp_sensor.temperature + \
                 config.thermocouple_offset
             # kiln too cold, wait for it to heat up
-            if self.target - temp > config.kiln_must_catch_up_max_error:
+            if self.target - temp > config.pid_control_window:
                 log.info("kiln must catch up, too cold, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
@@ -225,11 +225,15 @@ class Oven(threading.Thread):
             ### MARK TILLES MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
             ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
             ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
-            #if temp - self.target > config.kiln_must_catch_up_max_error:
-            if (temp > 100) and (temp - self.target > config.kiln_must_catch_up_max_error):
+            #if temp - self.target > config.pid_control_window:
+            if (temp >= config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
                 log.info("kiln must catch up, too hot, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
+            # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
+            else:
+                if (temp < config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
+                    log.info("kiln catch-up enabled, but retaining schedule unless temp exceeds config.pid_control_window_ignore_until")
 
     def update_runtime(self):
         runtime_delta = datetime.datetime.now() - self.start_time

@@ -4,6 +4,7 @@
 .#*
 *.swp
 .DStore/
+**/.DS_Store
 thumbs.db
 #storage/profiles
 #config.py

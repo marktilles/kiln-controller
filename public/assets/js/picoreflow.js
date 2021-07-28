@@ -541,7 +541,7 @@ $(document).ready(function()
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                         align: 'center', // ('left', 'right', or 'center')
                         width: 385, // (integer, or 'auto')
-                        delay: 5000,
+                        delay: 0,
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                         });
@@ -652,7 +652,7 @@ $(document).ready(function()
             emergency_shutoff_temp = x.emergency_shutoff_temp; // make variable emergency_shutoff_tempavailable here
             warnat = emergency_shutoff_temp -5; // make variable emergency_shutoff_tempavailable here
             kiln_must_catch_up = x.kiln_must_catch_up;
-            kiln_must_catch_up_max_error = x.kiln_must_catch_up_max_error;
+            pid_control_window = x.pid_control_window;
             $("#pid_kp").html(pid_kp); // Define variable for web instance
             $("#pid_ki").html(pid_ki); // Define variable for web instance
             $("#pid_kd").html(pid_kd); // Define variable for web instance
@@ -661,7 +661,7 @@ $(document).ready(function()
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {
-                $("#catch_up_max").html(kiln_must_catch_up_max_error); // Define variable for web instance
+                $("#catch_up_max").html(pid_control_window); // Define variable for web instance
             }
             else
             {
