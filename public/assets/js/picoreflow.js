@@ -651,6 +651,7 @@ $(document).ready(function()
             warnat = emergency_shutoff_temp -5; // make variable emergency_shutoff_tempavailable here 
             kiln_must_catch_up = x.kiln_must_catch_up;
             kiln_must_catch_up_max_error = x.kiln_must_catch_up_max_error;
+            kiln_must_catch_up_ignore_temp = x.kiln_must_catch_up_ignore_temp;
             $("#pid_kp").html(pid_kp); // Define variable for web instance
             $("#pid_ki").html(pid_ki); // Define variable for web instance
             $("#pid_kd").html(pid_kd); // Define variable for web instance
@@ -659,7 +660,7 @@ $(document).ready(function()
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {
-                $("#catch_up_max").html(kiln_must_catch_up_max_error); // Define variable for web instance
+                $("#catch_up_max").html(kiln_must_catch_up_max_error + "\/" + kiln_must_catch_up_ignore_temp); // Define variable for web instance
             }
             else
             {

@@ -302,7 +302,8 @@ def get_config():
         "kiln_name": config.kiln_name,
         "kiln_must_catch_up": config.kiln_must_catch_up,
         "kiln_must_catch_up_max_error": config.kiln_must_catch_up_max_error,
-        "emergency_shutoff_temp": config.emergency_shutoff_temp})
+        "emergency_shutoff_temp": config.emergency_shutoff_temp,
+        "kiln_must_catch_up_ignore_temp": config.kiln_must_catch_up_ignore_temp})
         # END - ADDED BY MARK TILLES
 
 def main():
