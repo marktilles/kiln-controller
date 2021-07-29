@@ -233,7 +233,7 @@ class Oven(threading.Thread):
             # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
             else:
                 if (temp < config.kiln_must_catch_up_start_temp) and (temp - self.target > config.kiln_must_catch_up_max_error):
-                    log.info("kiln catch-up enabled, but retaining schedule unless temp exceeds config.kiln_must_catch_up_start_temp")
+                    log.info("over-swing detected, catch-up disabled, retaining schedule until sensor temp exceeds %s" % config.kiln_must_catch_up_start_temp)
 
     def update_runtime(self):
         runtime_delta = datetime.datetime.now() - self.start_time
