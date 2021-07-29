@@ -199,7 +199,7 @@ def handle_control():
         except WebSocketError as e:
             log.error(e)
             break
-    log.info("we bsocket (control) closed")
+    log.info("websocket (control) closed")
 
 
 @app.route('/storage')

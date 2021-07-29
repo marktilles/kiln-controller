@@ -568,18 +568,16 @@ $(document).ready(function()
                     $('#cool').addClass("ds-led-hazard-active");   // RUNNING
                     $('#air').removeClass("ds-led-hazard-active"); // IDLE
 
-                    // Add compare statements, I want to show different heating icon depending on amount of heating
-                    heat_now = x.heat;
-                    heat = heat_now.toFixed(2);
-
-                    $("#heat_now").html(heat*100); // Define variable for web instance
-                    if (heat > 0.99) {
+                    // Add compare statements, I want to show different heating icon color depending on amount of heating
+                    heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
+                    $("#heat_now").html(heat_now); // Define variable for web instance
+                    if (heat_now > 99) {
                     // I want blinking red like original when full blast on
 	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
 	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
                     }
                     // I want blinking yellow when heater is on but not full blast
-                    else if (heat > 0.0) {
+                    else if (heat_now > 0.0) {
 	                setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
 	                setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
                     }
