@@ -231,9 +231,8 @@ class Oven(threading.Thread):
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
             # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
-            else:
-                if (temp < config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
-                    log.info("kiln catch-up enabled, but retaining schedule unless temp exceeds config.pid_control_window_ignore_until")
+            else if (temp < config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
+                log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.pid_control_window_ignore_until)
 
     def update_runtime(self):
         runtime_delta = datetime.datetime.now() - self.start_time
