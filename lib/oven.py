@@ -253,9 +253,17 @@ class Oven(threading.Thread):
                 log.info("kiln must catch up, too cold, shifting schedule")
                 self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
             # kiln too hot, wait for it to cool down
-            if temp - self.target > config.pid_control_window:
+            ### MARK TILLES MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
+            ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
+            ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
+            #if temp - self.target > config.pid_control_window:
+            if (temp >= config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
                 log.info("kiln must catch up, too hot, shifting schedule")
-                self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
+                self.start_time = self.start_time + \
+                    datetime.timedelta(seconds=self.time_step)
+            # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
+            else if (temp < config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
+                log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.pid_control_window_ignore_until)
 
     def update_runtime(self):
 
@@ -507,7 +515,9 @@ class RealOven(Oven):
         # self.heat is for the front end to display if the heat is on
         self.heat = 0.0
         if heat_on > 0:
-            self.heat = 1.0
+            # MARK TILLES WANTS ACTUAL VALUE SENT TO PICOREFLOW.JS
+            #self.heat = 1.0
+            self.heat = heat_on
 
         if heat_on:
             self.output.heat(heat_on)
@@ -614,7 +624,7 @@ class PID():
             output = sorted([-1 * window_size, output, window_size])[1]
             out4logs = output
             output = float(output / window_size)
-            
+
         self.lastErr = error
         self.lastNow = now
 
