@@ -1,0 +1,19 @@
+Changes to the web GUI:
+
+0. Made changes to the web page title, header text etc for my application. Also added a clickable javascript link which causes the kiln-controller system to run underlying scripts to swap between kiln-controller instances in parallel folder paths. I have a dual-oven setup, and made this a bit more compliated that necessary; I could have just made the scripts swap out the config files for the different ovens, and I will make this simplification change later.
+ 
+1. Changed the icon titles to:  Heating   Running     Idle       Hazard     Save 
+2. Improved the icons under the titles. Changed some standard background colors (although I used existing css, didn't make new css)
+3. Enabled dual color for the Heating icon: if heating at 100%, red; if heating 0% <heating> 100%, yellow.
+4. When firing curve is not running, the Idle icon lights up.
+5. When a firing curve is running, the Running icon lights up.
+6. Fixed the hazard function, as the variable never seemed to reach the picoreflow.js. Now, when the sensor temp reaches within 5 degrees of the shutdown temp, the hazard icon will light. See "Warn at:" info below.
+7. Added new fields in the info line: Kiln: Rhode pid=20 70 200 Catch-up: 5/60 Heating %: 0 Warn at: 1265 Emerg off: 1270
+   "Kiln:" - kiln name from config.py
+   "pid=" - the pid values from config.py
+   "Catch-up:" - the catch up values, if enabled; plus the "ignore" temp below which overheating swings will be ignored by catch-up function.
+   "Heating %" - the % of the capacity of the oven heating. This is the logged "pid" value (2.00 max = 100%).
+   "Emerg off:" - the emergency shutdown value from config.py
+   "Warn at:" - the emergency shutdown value from config.py - 5 degrees, at this temp the "Hazard" icon will light. Maybe add email function later for extra warning?
+8. Fixed the kwh cost, it wass not reaching the picoreflow.js 
+9.  
