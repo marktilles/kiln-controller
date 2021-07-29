@@ -323,7 +323,8 @@ def get_config():
         "kiln_name": config.kiln_name,
         "kiln_must_catch_up": config.kiln_must_catch_up,
         "pid_control_window": config.pid_control_window,
-        "emergency_shutoff_temp": config.emergency_shutoff_temp})
+        "emergency_shutoff_temp": config.emergency_shutoff_temp,
+        "pid_control_window_ignore_until": config.pid_control_window_ignore_until})
         # END - ADDED BY MARK TILLES
 
 def main():
