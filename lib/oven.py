@@ -222,10 +222,18 @@ class Oven(threading.Thread):
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
             # kiln too hot, wait for it to cool down
-            if temp - self.target > config.kiln_must_catch_up_max_error:
+            ### MARK TILLES MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
+            ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
+            ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
+            #if temp - self.target > config.kiln_must_catch_up_max_error:
+            if (temp >= config.kiln_must_catch_up_ignore_temp) and (temp - self.target > config.kiln_must_catch_up_max_error):
                 log.info("kiln must catch up, too hot, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
+            # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
+            else:
+                if (temp < config.kiln_must_catch_up_ignore_temp) and (temp - self.target > config.kiln_must_catch_up_max_error):
+                    log.info("over-swing detected, ignoring catch-up schedule adjustment until sensor temp exceeds %s" % config.kiln_must_catch_up_ignore_temp)
 
     def update_runtime(self):
         runtime_delta = datetime.datetime.now() - self.start_time
@@ -403,7 +411,9 @@ class RealOven(Oven):
         # self.heat is for the front end to display if the heat is on
         self.heat = 0.0
         if heat_on > 0:
-            self.heat = 1.0
+            # MARK TILLES WANTS ACTUAL VALUE SENT TO PICOREFLOW.JS 
+            #self.heat = 1.0
+            self.heat = heat_on
 
         if heat_on:
             self.output.heat(heat_on)
