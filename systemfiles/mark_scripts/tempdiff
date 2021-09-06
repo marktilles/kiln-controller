@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "This program shows the temperature rise over the last one minute."
+
+# filename is a grep of heat_off through the systemlog time frame for the firing§
+# exportname is what you want to name the export file
+
+filename1='syslogheatoff.txt'
+exportname='heatrise_chematex.txt'
+rm $exportname
+
+n=1
+while read line; do
+	# reading and parsing each line
+	sed 's/,/ /g' | awk '/ / {print $7"   "$8"   "$12"   "$13"   "$14}' >> $exportname
+	n=$((n+1))
+done < $filename1
+

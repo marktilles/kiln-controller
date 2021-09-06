@@ -1,0 +1,6 @@
+sudo rm /var/log/syslog
+sudo touch /var/log/syslog
+sudo service rsyslog restart
+echo "done."
+echo .
+syslog

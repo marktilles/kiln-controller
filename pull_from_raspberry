@@ -4,6 +4,9 @@
 
 cd kiln-controller
 
+scp pi@192.168.0.12:/etc/rc.local systemfiles/
+scp pi@192.168.0.12:/home/pi/mark_scripts/* systemfiles/mark_scripts/
+
 scp pi@192.168.0.12:/home/pi/rhode/config.py ./config.py.rhode
 scp pi@192.168.0.12:/home/pi/kiln-controller/config.py ./config.py.chematex
 

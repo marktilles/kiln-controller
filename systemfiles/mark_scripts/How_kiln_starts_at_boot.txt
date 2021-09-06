@@ -1,0 +1,3 @@
+Edit this file to select which kiln starts at boot.
+
+/etc/init.d/startkilnservice 

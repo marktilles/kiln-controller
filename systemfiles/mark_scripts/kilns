@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+import warnings, os, sys
+#### Echo process to user
+os.system("ps aux | grep 'pi\/rhode\/kiln-controller' | awk '{print $2"   "$12}'")
+os.system("ps aux | grep 'pi\/chematex\/kiln-controller' | awk '{print $2"   "$12}'")
+#os.system("ps aux | grep 'kiln-controller' | awk '{print $2"   "$12}'")
+

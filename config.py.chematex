@@ -83,7 +83,7 @@ sensor_time_wait = 2
 #
 #NEW VALUES FOR NEXT BURN
 pid_kp = 40   # Proportional was 50
-pid_ki = 300  # Integral was 400
+pid_ki = 200  # Integral was 400
 pid_kd = 800  # Derivative
 
 ########################################################################

@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import time
+### RHODE ###
+### RHODE ###
+### RHODE ###
+
+#### MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+from gpiozero import Button, LEDBoard
+from signal import pause
+import warnings, os, sys
+green_ledGPIO = 6
+green_led=LEDBoard(green_ledGPIO)
+green_led.blink(on_time=1, off_time=1)
+#green_led.off
+#### END - MARK TILLES START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+
+#### Stop and Start services
+#### Stop both so typing same service name will restart with reread of config.py
+os.system("sudo systemctl start kiln-rhode.service &")
+os.system("sudo systemctl stop kiln-chematex.service &")
+#time.sleep (2)
+#### Echo process to user
+os.system("ps aux | grep 'pi\/rhode\/kiln-controller' | awk '{print $2"   "$12}'")
+

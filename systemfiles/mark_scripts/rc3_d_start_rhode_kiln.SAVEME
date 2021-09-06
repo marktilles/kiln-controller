@@ -1,0 +1,4 @@
+#!/bin/bash
+#sudo systemctl start kiln-rhode.service
+sudo systemctl start kiln-chematex.service
+
