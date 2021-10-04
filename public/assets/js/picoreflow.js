@@ -1,3 +1,4 @@
+var hoursBeforeStart;
 var state = "IDLE";
 var state_last = "";
 var graph = [ 'profile', 'live'];
@@ -221,8 +222,28 @@ function timeTickFormatter(val)
     }
 }
 
-function runTask()
+// MARK TILLES MADE THIS AN ASYNC FUNCTION SO AWAIT WOULD WORK
+async function runTask()
 {
+
+    // MARK TILLES INTEGRATING A COUNTDOWN TIMER BEFORE STARTING THE OVEN CURVE
+    $('#timer').removeClass("ds-led-timer-active");
+    const myDate = new Date();
+    const newDate = new Date(myDate);
+    var hoursBeforeStart = prompt("Please enter delay to start in hours", "0");
+    // add the number of hours
+    newDate.setHours(newDate.getHours() + hoursBeforeStart);
+    //var NewStartTime = newtime.toTimeString();
+    var NewStartTime = newDate.toLocaleTimeString('en-US');
+    //var NewStartTime = now.getTime();
+    
+    if (hoursBeforeStart > 0) {
+        setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
+        $('#timer').addClass("ds-led-timer-active");
+        $("#testing_var").html(NewStartTime); //Define variable for web instance
+        await new Promise(r => setTimeout(r, hoursBeforeStart*1000*60*60));
+        // END MARK TILLES TESTING INTEGRATING A COUNTDOWN TIMER
+}
     var cmd =
     {
         "cmd": "RUN",
@@ -657,6 +678,7 @@ $(document).ready(function()
             $("#pid_kd").html(pid_kd); // Define variable for web instance
             $("#kiln_name").html(kiln_name); // Define variable for web instance
             $("#emerg_temp").html(emergency_shutoff_temp); // Define variable for web instance
+            $("#testing_var").html(hoursBeforeStart); // Define variable for web instance
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {
