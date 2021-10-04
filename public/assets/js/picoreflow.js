@@ -233,7 +233,12 @@ async function runTask()
     $("#timer_stat").html(""); //Define variable for web instance
     hoursBeforeStart = prompt("Please enter delay to start in hours", "0");
     TimerTime = new Date(Date.now() + hoursBeforeStart * (60 * 60 * 1000) );
-    var FiringTime = TimerTime.getHours() + ":" + TimerTime.getMinutes()
+    TimerTimeMinutes = TimerTime.getMinutes();
+
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+    TTzeroPad = zeroPad(TimerTimeMinutes, 2);
+
+    var FiringTime = TimerTime.getHours() + ":" + TTzeroPad;
  
     if (hoursBeforeStart > 0) {
         setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
