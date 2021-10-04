@@ -238,7 +238,7 @@ async function runTask()
     const zeroPad = (num, places) => String(num).padStart(places, '0')
     TTzeroPad = zeroPad(TimerTimeMinutes, 2);
 
-    var FiringTime = TimerTime.getHours() + ":" + TTzeroPad;
+    FiringTime = TimerTime.getHours() + ":" + TTzeroPad;
  
     if (hoursBeforeStart > 0) {
         setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
@@ -274,13 +274,19 @@ function runTaskSimulation()
     ws_control.send(JSON.stringify(cmd));
 }
 
-
 function abortTask()
 {
 // MARK TILLES
     CurrentTime = new Date(Date.now());
-    AbortTime = CurrentTime.getHours() + ":" + CurrentTime.getMinutes()
+    AbortTimeMinutes = CurrentTime.getMinutes()
+
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+    ATzeroPad = zeroPad(AbortTimeMinutes, 2);
+
+    AbortTime = CurrentTime.getHours() + ":" + ATzeroPad;
+
     $("#timer_stat").html("Aborted: " + AbortTime); // Erase status line text
+
 // MARK TILLES
     var cmd = {"cmd": "STOP"};
     ws_control.send(JSON.stringify(cmd));
