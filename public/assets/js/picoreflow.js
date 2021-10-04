@@ -1,3 +1,6 @@
+var AbortTime;
+var TimerTime;
+var CurrentTime;
 var hoursBeforeStart;
 var state = "IDLE";
 var state_last = "";
@@ -270,8 +273,8 @@ function runTaskSimulation()
 function abortTask()
 {
 // MARK TILLES
-    var CurrentTime = new Date(Date.now());
-    var AbortTime = CurrentTime.getHours() + ":" + TimerTime.getMinutes()
+    CurrentTime = new Date(Date.now());
+    AbortTime = CurrentTime.getHours() + ":" + CurrentTime.getMinutes()
     $("#timer_stat").html("Aborted: " + AbortTime); // Erase status line text
 // MARK TILLES
     var cmd = {"cmd": "STOP"};
