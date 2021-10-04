@@ -227,23 +227,19 @@ async function runTask()
 {
 
     // MARK TILLES INTEGRATING A COUNTDOWN TIMER BEFORE STARTING THE OVEN CURVE
-    $('#timer').removeClass("ds-led-timer-active");
-    const myDate = new Date();
-    const newDate = new Date(myDate);
-    var hoursBeforeStart = prompt("Please enter delay to start in hours", "0");
-    // add the number of hours
-    newDate.setHours(newDate.getHours() + hoursBeforeStart);
-    //var NewStartTime = newtime.toTimeString();
-    var NewStartTime = newDate.toLocaleTimeString('en-US');
-    //var NewStartTime = now.getTime();
-    
+    $("#timer_stat").html(""); //Define variable for web instance
+    hoursBeforeStart = prompt("Please enter delay to start in hours", "0");
+    TimerTime = new Date(Date.now() + hoursBeforeStart * (60 * 60 * 1000) );
+    var FiringTime = TimerTime.getHours() + ":" + TimerTime.getMinutes()
+ 
     if (hoursBeforeStart > 0) {
         setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
         $('#timer').addClass("ds-led-timer-active");
-        $("#testing_var").html(NewStartTime); //Define variable for web instance
+        $("#timer_stat").html("Waiting to: " + FiringTime); //Define variable for web instance
         await new Promise(r => setTimeout(r, hoursBeforeStart*1000*60*60));
         // END MARK TILLES TESTING INTEGRATING A COUNTDOWN TIMER
-}
+    }
+
     var cmd =
     {
         "cmd": "RUN",
@@ -254,7 +250,6 @@ async function runTask()
     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 
     ws_control.send(JSON.stringify(cmd));
-
 }
 
 function runTaskSimulation()
@@ -269,12 +264,16 @@ function runTaskSimulation()
     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 
     ws_control.send(JSON.stringify(cmd));
-
 }
 
 
 function abortTask()
 {
+// MARK TILLES
+    var CurrentTime = new Date(Date.now());
+    var AbortTime = CurrentTime.getHours() + ":" + TimerTime.getMinutes()
+    $("#timer_stat").html("Aborted: " + AbortTime); // Erase status line text
+// MARK TILLES
     var cmd = {"cmd": "STOP"};
     ws_control.send(JSON.stringify(cmd));
 }
@@ -573,7 +572,10 @@ $(document).ready(function()
                 {
                     $("#nav_start").hide();
                     $("#nav_stop").show();
-
+                    $('#timer').removeClass("ds-led-timer-active");
+                    if (hoursBeforeStart > 0) {
+                    $("#timer_stat").html("Timer Complete"); // Set status line text
+                    }
                     graph.live.data.push([x.runtime, x.temperature]);
                     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 
@@ -678,7 +680,6 @@ $(document).ready(function()
             $("#pid_kd").html(pid_kd); // Define variable for web instance
             $("#kiln_name").html(kiln_name); // Define variable for web instance
             $("#emerg_temp").html(emergency_shutoff_temp); // Define variable for web instance
-            $("#testing_var").html(hoursBeforeStart); // Define variable for web instance
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {

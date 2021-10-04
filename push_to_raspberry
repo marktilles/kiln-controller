@@ -8,7 +8,7 @@ scp config.py.chematex  pi@192.168.0.12:/home/pi/kiln-controller/config.py
 scp kiln-controller.py  pi@192.168.0.12:/home/pi/kiln-controller/kiln-controller.py
 scp docs/mark*          pi@192.168.0.12:/home/pi/kiln-controller/docs/
 scp lib/oven.py         pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py
-scp storage/profiles/*  pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/
+##scp storage/profiles/*  pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/
 scp public/control.html pi@192.168.0.12:/home/pi/kiln-controller/public/control.html
 scp public/index.html   pi@192.168.0.12:/home/pi/kiln-controller/public/index.html
 scp public/assets/css/picoreflow.css   pi@192.168.0.12:/home/pi/kiln-controller/public/assets/css
@@ -18,7 +18,7 @@ scp config.py.rhode     pi@192.168.0.12:/home/pi/rhode/config.py
 scp kiln-controller.py  pi@192.168.0.12:/home/pi/rhode/kiln-controller.py
 scp docs/mark*          pi@192.168.0.12:/home/pi/kiln-controller/docs/
 scp lib/oven.py         pi@192.168.0.12:/home/pi/rhode/lib/oven.py
-scp storage/profiles/*  pi@192.168.0.12:/home/pi/rhode/storage/profiles/
+##scp storage/profiles/*  pi@192.168.0.12:/home/pi/rhode/storage/profiles/
 scp public/control.html pi@192.168.0.12:/home/pi/rhode/public/control.html
 scp public/index.html   pi@192.168.0.12:/home/pi/rhode/public/index.html
 scp public/assets/css/picoreflow.css   pi@192.168.0.12:/home/pi/rhode/public/assets/css
