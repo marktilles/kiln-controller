@@ -16,4 +16,4 @@ Changes by Mark Tilles, adding some new configurability and functionality, as we
    * "Emerg off:" - the emergency shutdown value from config.py
    * "Warn at:" - the emergency shutdown value from config.py - 5 degrees. At this temp the "Hazard" icon will light. Maybe add email hooks later for extra warning?
 8. Fixed the kwh cost estimate, as the kwh cost value was hard-coded and not reaching the picoreflow.js 
-9. 
+9. Added a delayed-start timer function. But´this feature is in the picoreflow.js, you you must ONLY have one instance of the system open at any time because any click or refresh of the page will cancel the timer. But it seems to work well!  After clicking START you will be asked for a delay time in HOURS. If you enter one, it will display a reminder NOT to refesh the page and on the top line the planned sart time for the firing will be displayed.ther eis NO countdown timer .. don't see a need for this, good enough to know what time the system will fire up.
