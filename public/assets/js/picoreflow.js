@@ -1,7 +1,7 @@
-var AbortTime;
-var TimerTime;
-var CurrentTime;
-var hoursBeforeStart;
+//var AbortTime;
+//var TimerTime;
+//var CurrentTime;
+//var hoursBeforeStart;
 var state = "IDLE";
 var state_last = "";
 var graph = [ 'profile', 'live'];
@@ -230,8 +230,8 @@ async function runTask()
 {
 
     // MARK TILLES INTEGRATING A COUNTDOWN TIMER BEFORE STARTING THE OVEN CURVE
-    $("#timer_stat").html(""); //Define variable for web instance
-    hoursBeforeStart = prompt("Please enter delay to start in hours", "0");
+    $("#timer_stat").html(""); // Clear status text
+    hoursBeforeStart = prompt("Enter delay to start (hours, decimal values OK; 0=no delay):", "0");
     TimerTime = new Date(Date.now() + hoursBeforeStart * (60 * 60 * 1000) );
     TimerTimeMinutes = TimerTime.getMinutes();
 
@@ -239,13 +239,13 @@ async function runTask()
     TTzeroPad = zeroPad(TimerTimeMinutes, 2);
 
     FiringTime = TimerTime.getHours() + ":" + TTzeroPad;
- 
+
     if (hoursBeforeStart > 0) {
         setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
-        $('#timer').addClass("ds-led-timer-active");
-        $("#timer_stat").html("Waiting to: " + FiringTime); //Define variable for web instance
+        $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
+        $("#timer_stat").html("Waiting to: " + FiringTime); // Set status text
         await new Promise(r => setTimeout(r, hoursBeforeStart*1000*60*60));
-        // END MARK TILLES TESTING INTEGRATING A COUNTDOWN TIMER
+        // END MARK TILLES INTEGRATING A COUNTDOWN TIMER
     }
 
     var cmd =
@@ -285,7 +285,7 @@ function abortTask()
 
     AbortTime = CurrentTime.getHours() + ":" + ATzeroPad;
 
-    $("#timer_stat").html("Aborted: " + AbortTime); // Erase status line text
+    $("#timer_stat").html("Aborted: " + AbortTime); // Set status line text
 
 // MARK TILLES
     var cmd = {"cmd": "STOP"};
@@ -586,7 +586,7 @@ $(document).ready(function()
                 {
                     $("#nav_start").hide();
                     $("#nav_stop").show();
-                    $('#timer').removeClass("ds-led-timer-active");
+                    $('#timer').removeClass("ds-led-timer-active"); // Stop blinking timer icon
                     if (hoursBeforeStart > 0) {
                     $("#timer_stat").html("Timer Complete"); // Set status line text
                     }
@@ -602,8 +602,8 @@ $(document).ready(function()
 
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
-                    $('#cool').addClass("ds-led-hazard-active");   // RUNNING
-                    $('#air').removeClass("ds-led-hazard-active"); // IDLE
+                    $('#running').addClass("ds-led-hazard-active");   // RUNNING
+                    $('#idle').removeClass("ds-led-hazard-active"); // IDLE
 
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
                     heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
@@ -629,16 +629,14 @@ $(document).ready(function()
 
                     // MARK TILLES turn off running status icon
                     $("#heat_now").html("off"); // Oven is not running, no heat value to read
-                    $('#air').addClass("ds-led-hazard-active");     // IDLE
-                    $('#cool').removeClass("ds-led-hazard-active"); // RUNNING
+                    $('#idle').addClass("ds-led-hazard-active");     // IDLE
+                    $('#running').removeClass("ds-led-hazard-active"); // RUNNING
                 }
 
                 // THE FOLLOWING, ALL CASES, RUNNNING OR NOT
 
                 $('#act_temp').html(parseInt(x.temperature));
                 $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
-                // if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
-                // if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
 
                 // MARK TILLES CHANGE EMERGENCY BEHAVIOR
                 // hazardtemp is hard coded above, iwhy use that. Need to import proper variable emergency_shutoff_temp instead and use that instead.
