@@ -232,6 +232,10 @@ async function runTask()
     // MARK TILLES INTEGRATING A COUNTDOWN TIMER BEFORE STARTING THE OVEN CURVE
     $("#timer_stat").html(""); // Clear status text
     hoursBeforeStart = prompt("Enter delay to start (hours, decimal values OK; 0=no delay):", "0");
+    if (!hoursBeforeStart) { // Exit function
+        return;
+    }
+
     TimerTime = new Date(Date.now() + hoursBeforeStart * (60 * 60 * 1000) );
     TimerTimeMinutes = TimerTime.getMinutes();
 
