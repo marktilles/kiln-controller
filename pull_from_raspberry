@@ -10,7 +10,7 @@ scp pi@192.168.0.12:/home/pi/mark_scripts/* systemfiles/mark_scripts/
 scp pi@192.168.0.12:/home/pi/rhode/config.py ./config.py.rhode
 scp pi@192.168.0.12:/home/pi/kiln-controller/config.py ./config.py.chematex
 
-scp pi@192.168.0.12:/home/pi/kiln-controller/docs/mark* docs/
+scp pi@192.168.0.12:/home/pi/kiln-controller/docs/My* docs/
 scp pi@192.168.0.12:/home/pi/kiln-controller/kiln-controller.py .
 scp pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py lib/
 scp pi@192.168.0.12:/home/pi/kiln-controller/public/control.html public/
