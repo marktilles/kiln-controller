@@ -10,3 +10,4 @@ thumbs.db
 #config.py
 .idea/*
 storage/profiles/TEST.json
+systemfiles/mark_scripts/net-dev-kick.log
