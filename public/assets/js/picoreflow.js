@@ -1,7 +1,7 @@
 //var AbortTime;
 //var TimerTime;
 //var CurrentTime;
-//var hoursBeforeStart;
+var hoursBeforeStart;
 var state = "IDLE";
 var state_last = "";
 var graph = [ 'profile', 'live'];

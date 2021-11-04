@@ -1,0 +1,8 @@
+[Unit]
+Description=kiln-controller-1
+
+[Service]
+ExecStart=/home/pi/chematex/venv/bin/python /home/pi/chematex/kiln-controller.py
+
+[Install]
+WantedBy=multi-user.target

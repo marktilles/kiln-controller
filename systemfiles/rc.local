@@ -18,7 +18,7 @@ if [ "$_IP" ]; then
 fi
 
 ### SHUT OFF POWER MANAGEMENT FOR WLAN0
-iwconfig wlan0 power off &
+###iwconfig wlan0 power off &
 
 ### MARK TILLES - SHUTDOWN WITH HOLD BUTTON 10 SECS
 ~pi/mark_scripts/RC_LOCAL_shutdown_with_hold.py &

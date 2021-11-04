@@ -1,0 +1,8 @@
+[Unit]
+Description=kiln-controller-2
+
+[Service]
+ExecStart=/home/pi/rhode/venv/bin/python /home/pi/rhode/kiln-controller.py
+
+[Install]
+WantedBy=multi-user.target
