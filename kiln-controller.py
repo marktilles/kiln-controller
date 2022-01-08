@@ -13,6 +13,7 @@ import os
 import sys
 import logging
 import json
+from datetime import datetime
 
 import bottle
 import gevent
@@ -78,7 +79,7 @@ def handle_api():
 
         # start at a specific minute in the schedule
         # for restarting and skipping over early parts of a schedule
-        startat = 0;
+        startat = 0
         if 'startat' in bottle.request.json:
             startat = bottle.request.json['startat']
 
@@ -90,8 +91,7 @@ def handle_api():
         # FIXME juggling of json should happen in the Profile class
         profile_json = json.dumps(profile)
         profile = Profile(profile_json)
-        oven.run_profile(profile,startat=startat)
-        ovenWatcher.record(profile)
+        run_profile(profile,startat=startat)
 
     if bottle.request.json['cmd'] == 'stop':
         log.info("api stop command received")
@@ -126,6 +126,11 @@ def find_profile(wanted):
             return profile
     return None
 
+def run_profile(profile, startat=0):
+    oven.run_profile(profile, startat)
+    ovenWatcher.record(profile)
+
+
 @app.route('/picoreflow/:filename#.*#')
 def send_static(filename):
     log.debug("serving %s" % filename)
@@ -138,19 +143,6 @@ def get_websocket_from_request():
     if not wsock:
         abort(400, 'Expected WebSocket request.')
     return wsock
-
-
-#@app.route('/config')
-#def handle_config():
-#    wsock = get_websocket_from_request()
-#    log.info("websocket (config) opened")
-#    while True:
-#        try:
-#            message = wsock.receive()
-#            wsock.send(get_config())
-#        except WebSocketError:
-#            break
-#    log.info("websocket (config) closed")
 
 
 @app.route('/control')
@@ -169,8 +161,26 @@ def handle_control():
                     if profile_obj:
                         profile_json = json.dumps(profile_obj)
                         profile = Profile(profile_json)
-                    oven.run_profile(profile)
-                    ovenWatcher.record(profile)
+
+                    run_profile(profile)
+
+                elif msgdict.get("cmd") == "SCHEDULED_RUN":
+                    log.info("SCHEDULED_RUN command received")
+                    scheduled_start_time = msgdict.get('scheduledStartTime')
+                    profile_obj = msgdict.get('profile')
+                    if profile_obj:
+                        profile_json = json.dumps(profile_obj)
+                        profile = Profile(profile_json)
+
+                    start_datetime = datetime.fromisoformat(
+                        scheduled_start_time,
+                    )
+                    oven.scheduled_run(
+                        start_datetime,
+                        profile,
+                        lambda: ovenWatcher.record(profile),
+                    )
+
                 elif msgdict.get("cmd") == "SIMULATE":
                     log.info("SIMULATE command received")
                     #profile_obj = msgdict.get('profile')

@@ -7,6 +7,8 @@ import json
 import config
 import os
 
+from threading import Timer
+
 log = logging.getLogger(__name__)
 
 class DupFilter(object):
@@ -201,10 +203,16 @@ class Oven(threading.Thread):
         self.daemon = True
         self.temperature = 0
         self.time_step = config.sensor_time_wait
+        self.scheduled_run_timer = None
+        self.start_datetime = None
         self.reset()
 
     def reset(self):
         self.state = "IDLE"
+        if self.scheduled_run_timer and self.scheduled_run_timer.is_alive():
+            log.info("Cancelling previously scheduled run")
+            self.scheduled_run_timer.cancel()
+            self.start_datetime = None
         self.profile = None
         self.start_time = 0
         self.runtime = 0
@@ -237,6 +245,32 @@ class Oven(threading.Thread):
         self.state = "RUNNING"
         log.info("Running schedule %s starting at %d minutes" % (profile.name,startat))
         log.info("Starting")
+
+    def scheduled_run(self, start_datetime, profile, run_trigger, startat=0):
+        self.reset()
+        seconds_until_start = (
+            start_datetime - datetime.datetime.now()
+        ).total_seconds()
+        if seconds_until_start <= 0:
+            return
+
+        self.state = "SCHEDULED"
+        self.start_datetime = start_datetime
+        self.scheduled_run_timer = Timer(
+            seconds_until_start,
+            self._timeout,
+            args=[profile, run_trigger, startat],
+        )
+        self.scheduled_run_timer.start()
+        log.info(
+            "Scheduled to run the kiln at %s",
+            self.start_datetime,
+        )
+
+    def _timeout(self, profile, run_trigger, startat):
+        self.run_profile(profile, startat)
+        if run_trigger:
+            run_trigger()
 
     def abort_run(self):
         self.reset()
@@ -305,6 +339,9 @@ class Oven(threading.Thread):
             self.abort_run()
 
     def get_state(self):
+        scheduled_start = None
+        if self.start_datetime:
+            scheduled_start = self.start_datetime.strftime("%Y-%m-%d %H:%M")
         temp = 0
         try:
             temp = self.board.temp_sensor.temperature + config.thermocouple_offset
@@ -324,6 +361,7 @@ class Oven(threading.Thread):
             'currency_type': config.currency_type,
             'profile': self.profile.name if self.profile else None,
             'pidstats': self.pid.pidstats,
+            'scheduled_start': scheduled_start,
         }
         return state
 
@@ -402,6 +440,8 @@ class Oven(threading.Thread):
 class SimulatedOven(Oven):
 
     def __init__(self):
+        # call parent init
+        super().__init__()
         self.board = BoardSimulated()
         self.t_env = config.sim_t_env
         self.c_heat = config.sim_c_heat
@@ -414,8 +454,6 @@ class SimulatedOven(Oven):
         # set temps to the temp of the surrounding environment
         self.t = self.t_env # deg C temp of oven
         self.t_h = self.t_env #deg C temp of heating element
-
-        super().__init__()
 
         # start thread
         self.start()
@@ -493,10 +531,10 @@ class RealOven(Oven):
     def __init__(self):
         self.board = Board()
         self.output = Output()
-        self.reset()
-
         # call parent init
         Oven.__init__(self)
+
+        self.reset()
 
         # start thread
         self.start()

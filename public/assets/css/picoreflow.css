@@ -244,6 +244,16 @@ body {
     padding: 0;
 }
 
+.ds-text-small {
+    line-height: 36px;
+    padding: 20px;
+    vertical-align: middle;
+    border: none;
+    width: initial;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
 .ds-text {
     border: none;
     width: initial;

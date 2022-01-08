@@ -1,7 +1,3 @@
-//var AbortTime;
-//var TimerTime;
-//var CurrentTime;
-var hoursBeforeStart;
 var state = "IDLE";
 var state_last = "";
 var graph = [ 'profile', 'live'];
@@ -17,6 +13,7 @@ var time_scale_long = "Seconds";
 var temp_scale_display = "C";
 var kwh_rate = 0.26;
 var currency_type = "EUR";
+
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
     protocol = 'wss:';
@@ -26,6 +23,7 @@ var ws_status = new WebSocket(host+"/status");
 var ws_control = new WebSocket(host+"/control");
 var ws_config = new WebSocket(host+"/config");
 var ws_storage = new WebSocket(host+"/storage");
+
 // MARK TILLES ADDED
 var oven_kw;
 var emergency_shutoff_temp;
@@ -225,37 +223,31 @@ function timeTickFormatter(val)
     }
 }
 
-// MARK TILLES MADE THIS AN ASYNC FUNCTION SO AWAIT WOULD WORK
-async function runTask()
+function runTask()
 {
-
-    // MARK TILLES INTEGRATING A COUNTDOWN TIMER BEFORE STARTING THE OVEN CURVE
-    $("#timer_stat").html(""); // Clear status text
-    hoursBeforeStart = prompt("Enter delay to start (hours, decimal values OK; 0=no delay):", "0");
-    if (!hoursBeforeStart) { // Exit function
-        return;
-    }
-
-    TimerTime = new Date(Date.now() + hoursBeforeStart * (60 * 60 * 1000) );
-    TimerTimeMinutes = TimerTime.getMinutes();
-
-    const zeroPad = (num, places) => String(num).padStart(places, '0')
-    TTzeroPad = zeroPad(TimerTimeMinutes, 2);
-
-    FiringTime = TimerTime.getHours() + ":" + TTzeroPad;
-
-    if (hoursBeforeStart > 0) {
-        setTimeout (function() { alert ("Pausing " + hoursBeforeStart + " hours before starting oven.\nClick OK now to proceed, or REFRESH screen to abort!");},1);
-        $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
-        $("#timer_stat").html("Waiting to: " + FiringTime); // Set status text
-        await new Promise(r => setTimeout(r, hoursBeforeStart*1000*60*60));
-        // END MARK TILLES INTEGRATING A COUNTDOWN TIMER
-    }
-
     var cmd =
     {
         "cmd": "RUN",
         "profile": profiles[selected_profile]
+    }
+
+    graph.live.data = [];
+    graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
+
+    ws_control.send(JSON.stringify(cmd));
+
+}
+
+function scheduleTask()
+{
+    const startTime = document.getElementById('scheduled-run-time').value;
+    console.log(startTime);
+
+    var cmd =
+    {
+        "cmd": "SCHEDULED_RUN",
+        "profile": profiles[selected_profile],
+        "scheduledStartTime": startTime,
     }
 
     graph.live.data = [];
@@ -276,22 +268,12 @@ function runTaskSimulation()
     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 
     ws_control.send(JSON.stringify(cmd));
+
 }
+
 
 function abortTask()
 {
-// MARK TILLES
-    CurrentTime = new Date(Date.now());
-    AbortTimeMinutes = CurrentTime.getMinutes()
-
-    const zeroPad = (num, places) => String(num).padStart(places, '0')
-    ATzeroPad = zeroPad(AbortTimeMinutes, 2);
-
-    AbortTime = CurrentTime.getHours() + ":" + ATzeroPad;
-
-    $("#timer_stat").html("Aborted: " + AbortTime); // Set status line text
-
-// MARK TILLES
     var cmd = {"cmd": "STOP"};
     ws_control.send(JSON.stringify(cmd));
 }
@@ -492,10 +474,37 @@ function getOptions()
 
 }
 
+function formatDateInput(date)
+{
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1; //January is 0!
+    var yyyy = date.getFullYear();
+    var hh = date.getHours();
+    var mins = date.getMinutes();
 
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    const formattedDate = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + mins;
+    return formattedDate;
+}
+
+function initDatetimePicker() {
+    const now = new Date();
+    const inThirtyMinutes = new Date();
+    inThirtyMinutes.setMinutes(inThirtyMinutes.getMinutes() + 10);
+    $('#scheduled-run-time').attr('value', formatDateInput(inThirtyMinutes));
+    $('#scheduled-run-time').attr('min', formatDateInput(now));
+}
 
 $(document).ready(function()
 {
+    initDatetimePicker();
 
     if(!("WebSocket" in window))
     {
@@ -590,10 +599,9 @@ $(document).ready(function()
                 {
                     $("#nav_start").hide();
                     $("#nav_stop").show();
-                    $('#timer').removeClass("ds-led-timer-active"); // Stop blinking timer icon
-                    if (hoursBeforeStart > 0) {
-                    $("#timer_stat").html("Timer Complete"); // Set status line text
-                    }
+                    $("#timer").removeClass("ds-led-timer-active");
+                    $('#schedule-status').hide()
+
                     graph.live.data.push([x.runtime, x.temperature]);
                     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 
@@ -625,19 +633,26 @@ $(document).ready(function()
                     // END - MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
 
                 }
-                else // KILN HEATING CURVE NOT RUNNING
+                else if (state === "SCHEDULED") {
+                    $("#nav_start").hide();
+                    $("#nav_stop").show();
+                    $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
+                    $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small> Firing to begin '+x.scheduled_start+'</span></p>');
+                    //$('#schedule-status').html('Start at: ' + x.scheduled_start);
+                   // $('#schedule-status').show()
+                }
+                else
                 {
                     $("#nav_start").show();
                     $("#nav_stop").hide();
-                    $('#state').html('<p class="ds-text">'+state+'</p>');
-
+                    $("#timer").removeClass("ds-led-timer-active");
+                    $('#state').html('<p class="ds-text">'+'</p>');
+                    $('#schedule-status').hide()
                     // MARK TILLES turn off running status icon
                     $("#heat_now").html("off"); // Oven is not running, no heat value to read
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
                     $('#running').removeClass("ds-led-hazard-active"); // RUNNING
-                }
-
-                // THE FOLLOWING, ALL CASES, RUNNNING OR NOT
+		}
 
                 $('#act_temp').html(parseInt(x.temperature));
                 $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
@@ -657,7 +672,16 @@ $(document).ready(function()
                 }
                 //END - MARK TILLES CHANGE EMERGENCY BEHAVIOR
 
-                //if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
+                $('#act_temp').html(parseInt(x.temperature));
+
+		if (x.heat > 0.0) {
+	            setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
+	            setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
+                    }
+                if (x.cool > 0.5) { $('#cool').addClass("ds-led-cool-active"); } else { $('#cool').removeClass("ds-led-cool-active"); }
+                if (x.air > 0.5) { $('#air').addClass("ds-led-air-active"); } else { $('#air').removeClass("ds-led-air-active"); }
+                if (x.temperature > hazardTemp()) { $('#hazard').addClass("ds-led-hazard-active"); } else { $('#hazard').removeClass("ds-led-hazard-active"); }
+                if ((x.door == "OPEN") || (x.door == "UNKNOWN")) { $('#door').addClass("ds-led-door-open"); } else { $('#door').removeClass("ds-led-door-open"); }
 
                 state_last = state;
 
@@ -681,6 +705,7 @@ $(document).ready(function()
             kwh_rate = x.kwh_rate;
             oven_kw = x.oven_kw;
             currency_type = x.currency_type;
+
             // MARK TILLES ADDED
             pid_kp = x.pid_kp;
             pid_ki = x.pid_ki;
@@ -706,7 +731,6 @@ $(document).ready(function()
                 $("#catch_up_max").html("off"); // Define variable for web instance
             }
             // END - MARK TILLES ADDED
-
             if (temp_scale == "c") {temp_scale_display = "C";} else {temp_scale_display = "F";}
 
 
