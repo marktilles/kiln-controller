@@ -645,7 +645,9 @@ $(document).ready(function()
                 {
                     $("#nav_start").show();
                     $("#nav_stop").hide();
+                    $("#timer").removeClass("ds-led-timer-active");
                     $('#state').html('<p class="ds-text">'+state+'</p>');
+                    $('#schedule-status').hide()
                     
                     // MARK TILLES turn off running status icon
                     $("#heat_now").html("off"); // Oven is not running, no heat value to read
