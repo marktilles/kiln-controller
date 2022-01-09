@@ -15,6 +15,37 @@
  <script src="assets/js/select2.min.js"></script>
  <script src="assets/js/picoreflow.js"></script>
 
+ <script> /* Script to include customer site-specific html text file */
+ function includeHTML() {
+   var z, i, elmnt, file, xhttp;
+   /* Loop through a collection of all HTML elements: */
+   z = document.getElementsByTagName("*");
+   for (i = 0; i < z.length; i++) {
+     elmnt = z[i];
+     /*search for elements with a certain atrribute:*/
+     file = elmnt.getAttribute("w3-include-html");
+     if (file) {
+       /* Make an HTTP request using the attribute value as the file name: */
+       xhttp = new XMLHttpRequest();
+       xhttp.onreadystatechange = function() {
+         if (this.readyState == 4) {
+           if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+           /* Remove the attribute, and call this function once more: */
+           elmnt.removeAttribute("w3-include-html");
+           includeHTML();
+         }
+       }
+       xhttp.open("GET", file, true);
+       xhttp.send();
+       /* Exit the function: */
+       return;
+     }
+   }
+ }
+ </script>
+
+
  <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
  <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css"/>
  <link rel="stylesheet" href="assets/css/bootstrap-modal.css"/>
@@ -24,9 +55,7 @@
 </head>
 <body>
 
-<br><center><font size = "+4" color = "green"><font color = "blue"> D</font><font color = "white">r</font><font color = "purple">E</font><font color = "yellow">j</font><font color = "red">S</font><font color = "green">t</font><font color = "blue">U</font><font color = "white">g</font><font color = "purple">A</font><font color ="red"> F</font><font color = "green">u</font><font color = "yellow">N</font><font color = "blue">!</font></font><font size = "+2" color ="green"><i><br>i Upplands Väsby</i></font></center>
-
-<center><font color = "blue" size = "+0">Ensure switches and power cords are in proper positions</font></center>
+<div w3-include-html="site-content.html"></div>
 
  <div class="container">
   <div id="status">
@@ -168,6 +197,10 @@
    </div>
   </div>
  </div>
+
+<script>
+includeHTML();
+</script>
 
 </body>
 </html>
