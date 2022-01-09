@@ -614,7 +614,7 @@ $(document).ready(function()
 
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
-                    $('#running').addClass("ds-led-hazard-active");   // RUNNING
+                    $('#running').addClass("ds-led-heat-active");   // RUNNING
                     $('#idle').removeClass("ds-led-hazard-active"); // IDLE
 
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
@@ -650,7 +650,7 @@ $(document).ready(function()
                     // MARK TILLES turn off running status icon
                     $("#heat_now").html("off"); // Oven is not running, no heat value to read
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
-                    $('#running').removeClass("ds-led-hazard-active"); // RUNNING
+                    $('#running').removeClass("ds-led-heat-active"); // RUNNING
 		}
 
                 $('#act_temp').html(parseInt(x.temperature));
