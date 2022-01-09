@@ -4,17 +4,15 @@
 
 cd kiln-controller
 
-scp pi@192.168.0.12:/etc/rc.local systemfiles/
-scp pi@192.168.0.12:/home/pi/mark_scripts/* systemfiles/mark_scripts/
-
-scp pi@192.168.0.12:/home/pi/rhode/config.py ./config.py.rhode
-scp pi@192.168.0.12:/home/pi/kiln-controller/config.py ./config.py.chematex
-
-###scp pi@192.168.0.12:/home/pi/kiln-controller/docs/My* docs/
-scp pi@192.168.0.12:/home/pi/kiln-controller/kiln-controller.py .
-scp pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py lib/
-scp pi@192.168.0.12:/home/pi/kiln-controller/public/control.html public/
-scp pi@192.168.0.12:/home/pi/kiln-controller/public/index.html public/
+scp pi@192.168.0.12:/home/pi/rhode/config.py                                 ./config.py.rhode
+scp pi@192.168.0.12:/home/pi/kiln-controller/config.py                       ./config.py.chematex
+:
+scp pi@192.168.0.12:/home/pi/kiln-controller/docs/mark*                       docs/
+scp pi@192.168.0.12:/home/pi/kiln-controller/kiln-controller.py               .
+scp pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py                      lib/
+scp pi@192.168.0.12:/home/pi/kiln-controller/public/index.html                public/
+scp pi@192.168.0.12:/home/pi/kiln-controller/public/site-content.html         public/
 scp pi@192.168.0.12:/home/pi/kiln-controller/public/assets/css/picoreflow.css public/assets/css/
-scp pi@192.168.0.12:/home/pi/kiln-controller/public/assets/js/picoreflow.js public/assets/js/
-scp pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/* storage/profiles/
+scp pi@192.168.0.12:/home/pi/kiln-controller/public/assets/js/picoreflow.js   public/assets/js/
+scp pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/*               storage/profiles/
+
