@@ -341,7 +341,7 @@ class Oven(threading.Thread):
     def get_state(self):
         scheduled_start = None
         if self.start_datetime:
-            scheduled_start = self.start_datetime.strftime("%Y-%m-%d %H:%M")
+            scheduled_start = self.start_datetime.strftime("%Y-%m-%d at %H:%M")
         temp = 0
         try:
             temp = self.board.temp_sensor.temperature + config.thermocouple_offset
