@@ -599,7 +599,7 @@ $(document).ready(function()
                         updateProgress(0);
                         $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Scheduled run canceled</b>", {
                         ele: 'body', // which element to append to
-                        type: 'success', // (null, 'info', 'error', 'success')
+                        type: 'info', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                         align: 'center', // ('left', 'right', or 'center')
                         width: 385, // (integer, or 'auto')
@@ -617,6 +617,7 @@ $(document).ready(function()
                     $("#nav_cancel").hide();
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#schedule-status').hide()
+                    heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
 
                     graph.live.data.push([x.runtime, x.temperature]);
                     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
@@ -625,7 +626,7 @@ $(document).ready(function()
                     eta = new Date(left * 1000).toISOString().substr(11, 8);
 
                     updateProgress(parseFloat(x.runtime)/parseFloat(x.totaltime)*100);
-                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 40px;">' + eta + '</span>');
+                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 40px;">' + eta + ' <span class=ds-text-small>Heating at ' + heat_now + ' % capacity</span></span>');
                     $('#target_temp').html(parseInt(x.target));
 
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
@@ -633,10 +634,9 @@ $(document).ready(function()
                     $('#running').addClass("ds-led-heat-active");   // RUNNING
                     $('#idle').removeClass("ds-led-hazard-active"); // IDLE
 
-                    // Add compare statements, I want to show different heating icon color depending on amount of heating
-                    heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
-                    $("#heat_now").html(heat_now); // Define variable for web instance
-                    if (heat_now > 99) {
+                    //heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
+                    //$("#heat_now").html(heat_now); // Define variable for web instance
+                    if (heat_now > 99) { 
                     // I want blinking red like original when full blast on
 	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
 	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
@@ -666,9 +666,9 @@ $(document).ready(function()
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#state').html('<p class="ds-text">'+state+'</p>');
                     $('#schedule-status').hide()
-                    
+
                     // MARK TILLES turn off running status icon
-                    $("#heat_now").html("off"); // Oven is not running, no heat value to read
+                    //$("#heat_now").html("off"); // Oven is not running, no heat value to read
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
                     $('#running').removeClass("ds-led-heat-active"); // RUNNING
 		}
