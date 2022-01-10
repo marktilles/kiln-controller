@@ -599,6 +599,7 @@ $(document).ready(function()
                 {
                     $("#nav_start").hide();
                     $("#nav_stop").show();
+                    $("#nav_cancel").hide();
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#schedule-status').hide()
 
@@ -635,7 +636,8 @@ $(document).ready(function()
                 }
                 else if (state === "SCHEDULED") {
                     $("#nav_start").hide();
-                    $("#nav_stop").show();
+                    $("#nav_stop").hide();
+                    $("#nav_cancel").show();
                     $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
                     $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small> Firing to begin '+x.scheduled_start+'</span></p>');
                     //$('#schedule-status').html('Start at: ' + x.scheduled_start);
@@ -645,6 +647,7 @@ $(document).ready(function()
                 {
                     $("#nav_start").show();
                     $("#nav_stop").hide();
+                    $("#nav_cancel").hide();
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#state').html('<p class="ds-text">'+state+'</p>');
                     $('#schedule-status').hide()
