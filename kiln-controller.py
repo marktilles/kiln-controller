@@ -4,9 +4,9 @@
 from gpiozero import Button, LEDBoard
 from signal import pause
 import warnings, os, sys
-green_ledGPIO = 6
-green_led=LEDBoard(green_ledGPIO)
-green_led.blink(on_time=1, off_time=1)
+service_running_ledGPIO = 27
+service_running_led=LEDBoard(service_running_ledGPIO)
+service_running_led.blink(on_time=1, off_time=1)
 # END - ADDED BY MARK TILLES TO START BLINKING GREEN LED WHEN SERVICE IS RUNNING
 
 import os

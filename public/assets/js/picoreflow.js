@@ -14,6 +14,7 @@ var temp_scale_display = "C";
 var kwh_rate = 0.26;
 var currency_type = "EUR";
 
+
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
     protocol = 'wss:';
@@ -280,8 +281,8 @@ function abortTask()
 
 function actionTask()
 {
- $("#nav_action").hide();
- $("#nav_stop").show();
+    $("#nav_action").hide();
+    $("#nav_stop").show();
 }
 
 function enterNewMode()
@@ -588,7 +589,8 @@ $(document).ready(function()
                     {
                         $('#target_temp').html('---');
                         updateProgress(0);
-                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Run aborted or completed</b>", {
+                        canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
+                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Run aborted or completed " + canceltime + "</b>", {
                         ele: 'body', // which element to append to
                         type: 'success', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -603,7 +605,8 @@ $(document).ready(function()
                     {
                         $('#target_temp').html('---');
                         updateProgress(0);
-                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Scheduled run canceled</b>", {
+                        canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
+                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Scheduled run canceled " + canceltime + "</b>", {
                         ele: 'body', // which element to append to
                         type: 'info', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
