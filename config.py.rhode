@@ -36,7 +36,7 @@ kiln_name	= "Rhode"
 #   can use whichever GPIO you prefer/have available.
 
 ### Outputs
-gpio_heat = 23  # Switches zero-cross solid-state-relay
+gpio_heat = 17  # Switches zero-cross solid-state-relay
 
 ### Thermocouple Adapter selection:
 #   max31855 - bitbang SPI interface
@@ -116,7 +116,7 @@ time_scale_profile  = "m" # s = Seconds | m = Minutes | h = Hours - Enter and vi
 # naturally cool off. If your SSR has failed/shorted/closed circuit, this
 # means your kiln receives full power until your house burns down.
 # this should not replace you watching your kiln or use of a kiln-sitter
-emergency_shutoff_temp = 1270 #cone 7
+emergency_shutoff_temp = 1270
 
 # If the kiln cannot heat or cool fast enough and is off by more than
 # pid_control_window  the entire schedule is shifted until
