@@ -21,9 +21,9 @@ listening_port = 8081
 # Mark's cost June 2021 Vattenfall all taxes and fees SEK 42,64 => 42,64 /kWt
 # Mark's cost June 2021 EON all taxes and fees SEK 383,75/mo * 12/18000 = 2,26 kr/kWt, elöverföring 58,90/kWt
 # Total thus 42,64 + 2,26 + 58,90 = 103,80 kr/kWt/kWt
-kwh_rate        = 1.0380  # Rate in currency_type to calculate cost to run job
+kwh_rate        = 1.380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
-oven_kw         = 6000   # kW capacity of oven
+oven_kw         = 5000    # Watt capacity of oven
 kiln_name	= "Rhode"
 
 ########################################################################
@@ -125,7 +125,7 @@ emergency_shutoff_temp = 1270 #cone 7
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
 pid_control_window = 5 #degrees
-pid_control_window_ignore_until = 60 # degrees, ignore overswings until this temp
+pid_control_window_ignore_until = 80 # degrees, ignore overswings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can

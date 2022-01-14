@@ -4,9 +4,9 @@
 ### PRODUCTION!!!!  192.168.0.12
 ### PRODUCTION!!!!  192.168.0.12
 
-cd kiln-controller
+###cd kiln-controller
 
-scp config.py.chematex                 pi@192.168.0.12:/home/pi/kiln-controller/config.py
+###scp config.py.chematex                 pi@192.168.0.12:/home/pi/kiln-controller/config.py
 scp kiln-controller.py                 pi@192.168.0.12:/home/pi/kiln-controller/
 scp lib/oven.py                        pi@192.168.0.12:/home/pi/kiln-controller/lib/
 scp public/index.html                  pi@192.168.0.12:/home/pi/kiln-controller/public/
@@ -19,7 +19,7 @@ scp public/assets/js/picoreflow.js     pi@192.168.0.12:/home/pi/kiln-controller/
 ###scp public/control.html pi@192.168.0.12:/home/pi/kiln-controller/public/
 
 
-scp config.py.rhode                    pi@192.168.0.12:/home/pi/rhode/config.py
+###scp config.py.rhode                    pi@192.168.0.12:/home/pi/rhode/config.py
 scp kiln-controller.py                 pi@192.168.0.12:/home/pi/rhode/
 scp lib/oven.py                        pi@192.168.0.12:/home/pi/rhode/lib/
 scp public/index.html                  pi@192.168.0.12:/home/pi/rhode/public/
