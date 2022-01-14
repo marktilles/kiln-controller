@@ -278,6 +278,12 @@ function abortTask()
     ws_control.send(JSON.stringify(cmd));
 }
 
+function actionTask()
+{
+ $("#nav_action").hide();
+ $("#nav_stop").show();
+}
+
 function enterNewMode()
 {
     state="EDIT"
@@ -612,11 +618,11 @@ $(document).ready(function()
 
                 if(state=="RUNNING")
                 {
-                    $("#nav_start").hide();
-                    $("#nav_stop").show();
-                    $("#nav_cancel").hide();
-                    $("#timer").removeClass("ds-led-timer-active");
                     $('#schedule-status').hide()
+                    $("#nav_start").hide(); 
+                    $("#nav_cancel").hide();
+		    $("#nav_action").show(); $("#nav_stop").hide(); 
+                    $("#timer").removeClass("ds-led-timer-active");
                     heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
 
                     graph.live.data.push([x.runtime, x.temperature]);
