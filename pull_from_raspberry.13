@@ -7,7 +7,7 @@
 scp pi@192.168.0.13:/home/pi/rhode/config.py                                 ./config.py.rhode
 scp pi@192.168.0.13:/home/pi/kiln-controller/config.py                       ./config.py.chematex
 
-scp pi@192.168.0.13:/home/pi/kiln-controller/docs/mark*                       docs/
+###scp pi@192.168.0.13:/home/pi/kiln-controller/docs/mark*                       docs/
 scp pi@192.168.0.13:/home/pi/kiln-controller/kiln-controller.py               .
 scp pi@192.168.0.13:/home/pi/kiln-controller/lib/oven.py                      lib/
 scp pi@192.168.0.13:/home/pi/kiln-controller/public/index.html                public/

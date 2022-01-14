@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-# ADDED BY MARK TILLES TO START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+# START BLINKING GREEN LED WHEN SERVICE IS RUNNING
 from gpiozero import Button, LEDBoard
 from signal import pause
 import warnings, os, sys
 service_running_ledGPIO = 27
 service_running_led=LEDBoard(service_running_ledGPIO)
 service_running_led.blink(on_time=1, off_time=1)
-# END - ADDED BY MARK TILLES TO START BLINKING GREEN LED WHEN SERVICE IS RUNNING
+# END - START BLINKING GREEN LED WHEN SERVICE IS RUNNING
 
 import os
 import sys
@@ -195,7 +195,7 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
-                # ASSISTED BY HENRIK FOR MARK TILLES
+                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KIN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
                 elif msgdict.get("cmd") == "SWITCH_KILN":
                     if config.kiln_name == "Chematex":
                        log.info("Switching KILN to Rhode kiln")
@@ -205,7 +205,7 @@ def handle_control():
                        log.info("Switching KILN to Chematex kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/chematex &")
-                # END - ASSISTED BY HENRIK FOR MARK TILLES
+                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KIN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
         except WebSocketError as e:
             log.error(e)
             break
@@ -325,7 +325,7 @@ def get_config():
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
         "currency_type": config.currency_type,
-        # ADDED BY MARK TILLES
+        # ADDED TO PORT IN MORE INFO FROM BACKEND
         "pid_kp": config.pid_kp,
         "pid_ki": config.pid_ki,
         "pid_kd": config.pid_kd,
@@ -335,7 +335,7 @@ def get_config():
         "pid_control_window": config.pid_control_window,
         "emergency_shutoff_temp": config.emergency_shutoff_temp,
         "pid_control_window_ignore_until": config.pid_control_window_ignore_until})
-        # END - ADDED BY MARK TILLES
+        # ADDED TO PORT IN MORE INFO FROM BACKEND
 
 def main():
     ip = config.listening_ip

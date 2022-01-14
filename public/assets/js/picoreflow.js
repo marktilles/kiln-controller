@@ -25,9 +25,10 @@ var ws_control = new WebSocket(host+"/control");
 var ws_config = new WebSocket(host+"/config");
 var ws_storage = new WebSocket(host+"/storage");
 
-// MARK ADDED
 var oven_kw;
 var emergency_shutoff_temp;
+
+// ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES§:w
 function SWITCH_KILN() {
 	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
    	var cmd =
@@ -40,7 +41,7 @@ function SWITCH_KILN() {
 	alert ("Kiln Switchover Canceled")
 	}
 }
-// END TILLES ADDED
+// ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES§:w
 
 if(window.webkitRequestAnimationFrame) window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 
@@ -622,9 +623,9 @@ $(document).ready(function()
                 if(state=="RUNNING")
                 {
                     $('#schedule-status').hide()
-                    $("#nav_start").hide(); 
+                    $("#nav_start").hide();
                     $("#nav_cancel").hide();
-		    $("#nav_action").show(); $("#nav_stop").hide(); 
+		    $("#nav_action").show(); $("#nav_stop").hide();
                     $("#timer").removeClass("ds-led-timer-active");
                     heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
 
@@ -644,7 +645,7 @@ $(document).ready(function()
                     $('#idle').removeClass("ds-led-hazard-active"); // IDLE
 
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
-                    if (heat_now > 99) { 
+                    if (heat_now > 99) {
                     // I want blinking red like original when full blast on
 	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
 	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
@@ -671,8 +672,7 @@ $(document).ready(function()
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#state').html('<p class="ds-text">'+state+'</p>');
                     $('#schedule-status').hide()
-
-                    // MARK turn off running status icon
+                    
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
                     $('#running').removeClass("ds-led-heat-active"); // RUNNING
 		}
@@ -714,7 +714,7 @@ $(document).ready(function()
             oven_kw = x.oven_kw;
             currency_type = x.currency_type;
 
-            // MARK ADDED
+            // ADDED TO BE ABLE TO PORT IN MORE INFORMATION TO GUI
             pid_kp = x.pid_kp;
             pid_ki = x.pid_ki;
             pid_kd = x.pid_kd;
@@ -738,7 +738,7 @@ $(document).ready(function()
             {
                 $("#catch_up_max").html("off"); // Define variable for web instance
             }
-            // END - MARK ADDED
+            // ADDED TO BE ABLE TO PORT IN MORE INFORMATION TO GUI
             if (temp_scale == "c") {temp_scale_display = "C";} else {temp_scale_display = "F";}
 
 
