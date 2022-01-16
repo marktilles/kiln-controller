@@ -175,7 +175,7 @@ body {
     background: radial-gradient(ellipse at center, rgba(242,195,67,1) 0%,rgba(241,218,54,0.26) 100%); /* W3C */
 }
 
-.ds-led-cool-active {
+.UNUSED-ds-led-cool-active {
     color: rgb(74, 159, 255);
     background: -moz-radial-gradient(center, ellipse cover, rgba(124,197,239,1) 0%, rgba(48,144,209,0.26) 100%); /* FF3.6+ */
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(124,197,239,1)), color-stop(100%,rgba(48,144,209,0.26))); /* Chrome,Safari4+ */
@@ -249,7 +249,8 @@ body {
     padding: 0;
 }
 
-.ds-text-small {
+
+.ds-text-small-yellow {
     color: rgb(255, 204, 0);
     line-height: 42px;
     padding: 10px;
@@ -259,7 +260,16 @@ body {
     font-family: sans-serif;
     font-size: 24px;
 }
-
+.ds-text-small-red {
+    color: rgb(214, 42, 0);
+    line-height: 42px;
+    padding: 10px;
+    vertical-align: top;
+    border: none;
+    width: initial;
+    font-family: sans-serif;
+    font-size: 24px;
+}
 .ds-text {
     border: none;
     width: initial;

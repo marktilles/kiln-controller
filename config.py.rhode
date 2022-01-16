@@ -124,7 +124,7 @@ emergency_shutoff_temp = 1270
 # wanted temperature, the schedule will run forever. This is often used
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
-pid_control_window = 5 #degrees
+pid_control_window = 8 #degrees
 pid_control_window_ignore_until = 80 # degrees, ignore overswings until this temp
 
 # thermocouple offset

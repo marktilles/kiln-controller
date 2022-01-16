@@ -4,7 +4,7 @@
 from gpiozero import Button, LEDBoard
 from signal import pause
 import warnings, os, sys
-service_running_ledGPIO = 27
+service_running_ledGPIO = 16
 service_running_led=LEDBoard(service_running_ledGPIO)
 service_running_led.blink(on_time=1, off_time=1)
 # END - START BLINKING GREEN LED WHEN SERVICE IS RUNNING
@@ -195,7 +195,7 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
-                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KIN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
+                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
                 elif msgdict.get("cmd") == "SWITCH_KILN":
                     if config.kiln_name == "Chematex":
                        log.info("Switching KILN to Rhode kiln")
@@ -205,7 +205,7 @@ def handle_control():
                        log.info("Switching KILN to Chematex kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/chematex &")
-                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KIN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
+                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
         except WebSocketError as e:
             log.error(e)
             break

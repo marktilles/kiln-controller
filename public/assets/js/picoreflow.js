@@ -591,7 +591,7 @@ $(document).ready(function()
                         $('#target_temp').html('---');
                         updateProgress(0);
                         canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
-                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Run aborted or completed " + canceltime + "</b>", {
+                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Run completed or aborted " + canceltime + "</b>", {
                         ele: 'body', // which element to append to
                         type: 'success', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -625,7 +625,7 @@ $(document).ready(function()
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
                     $("#nav_cancel").hide();
-		    $("#nav_action").show(); $("#nav_stop").hide();
+                    $("#nav_action").show(); $("#nav_stop").hide();
                     $("#timer").removeClass("ds-led-timer-active");
                     heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
 
@@ -636,7 +636,6 @@ $(document).ready(function()
                     eta = new Date(left * 1000).toISOString().substr(11, 8);
 
                     updateProgress(parseFloat(x.runtime)/parseFloat(x.totaltime)*100);
-                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     $('#target_temp').html(parseInt(x.target));
 
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
@@ -647,13 +646,15 @@ $(document).ready(function()
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
                     if (heat_now > 99) {
                     // I want blinking red like original when full blast on
-	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
-	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
+                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small-red>&#9832;&#xfe0e; ' + heat_now + '%</span>');
+    	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
+    	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
                     }
                     // I want blinking yellow when heater is on but not full blast
                     else if (heat_now > 0.0) {
-	                setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
-	                setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
+                      $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small-yellow>&#9832;&#xfe0e; ' + heat_now + '%</span>');
+                      setTimeout(function() { $('#heat').addClass("ds-led-hazard-active") }, 0 )
+                      setTimeout(function() { $('#heat').removeClass("ds-led-hazard-active") }, (x.heat*1000.0)-5)
                     }
 
                 }
@@ -662,7 +663,7 @@ $(document).ready(function()
                     $("#nav_stop").hide();
                     $("#nav_cancel").show();
                     $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
-                    $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small>for '+x.scheduled_start+'</span></p>');
+                    $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small-yellow>for '+x.scheduled_start+'</span></p>');
                 }
                 else
                 {
@@ -672,7 +673,7 @@ $(document).ready(function()
                     $("#timer").removeClass("ds-led-timer-active");
                     $('#state').html('<p class="ds-text">'+state+'</p>');
                     $('#schedule-status').hide()
-                    
+
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
                     $('#running').removeClass("ds-led-heat-active"); // RUNNING
 		}
