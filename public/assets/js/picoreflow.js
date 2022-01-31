@@ -528,7 +528,7 @@ $(document).ready(function()
         {
             console.log("Status Socket has been opened");
 
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span>Getting data from server",
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> Getting data from server",
             {
             ele: 'body', // which element to append to
             type: 'success', // (null, 'info', 'error', 'success')
@@ -601,6 +601,7 @@ $(document).ready(function()
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                         });
+                        $("#nav_action").hide();
                     }
                     else if (state_last == "SCHEDULED")
                     {
@@ -663,7 +664,7 @@ $(document).ready(function()
                     $("#nav_stop").hide();
                     $("#nav_cancel").show();
                     $('#timer').addClass("ds-led-timer-active"); // Start blinking timer symbol
-                    $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small-yellow>for '+x.scheduled_start+'</span></p>');
+                    $('#state').html('<p class="ds-text">'+state+'<span class=ds-text-small-light-blue>for '+x.scheduled_start+'</span></p>');
                 }
                 else
                 {

@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /home/pi/mark_scripts
+####./mark_gpio_io_test &
+sudo pigpiod &
+/usr/bin/python PyMon.py &
+

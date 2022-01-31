@@ -1,0 +1,4 @@
+#/bin/bash
+/home/pi/mark_scripts/blink_GPIO_22_27.py &
+#####/home/pi/mark_scripts/enable_VNC_gpio_monitor &
+exit

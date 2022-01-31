@@ -207,7 +207,7 @@ body {
 
 .ds-led-timer-active {
     color: rgb(74, 159, 255);
-    animation: blinker 1s linear infinite;
+    animation: blinker 2s linear infinite;
     background: -moz-radial-gradient(center, ellipse cover, rgba(124,197,239,1) 0%, rgba(48,144,209,0.26) 100%); /* FF3.6+ */
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(124,197,239,1)), color-stop(100%,rgba(48,144,209,0.26))); /* Chrome,Safari4+ */
     background: -webkit-radial-gradient(center, ellipse cover, rgba(124,197,239,1) 0%,rgba(48,144,209,0.26) 100%); /* Chrome10+,Safari5.1+ */
@@ -260,6 +260,18 @@ body {
     font-family: sans-serif;
     font-size: 24px;
 }
+
+.ds-text-small-light-blue {
+    color: rgb(000, 190,255);
+    line-height: 42px;
+    padding: 10px;
+    vertical-align: top;
+    border: none;
+    width: initial;
+    font-family: sans-serif;
+    font-size: 24px;
+}
+
 .ds-text-small-red {
     color: rgb(214, 42, 0);
     line-height: 42px;
