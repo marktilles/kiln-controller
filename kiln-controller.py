@@ -195,6 +195,9 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
+                elif msgdict.get("cmd") == "UNLOCK_DOOR":
+                    log.info("Unlock Door command received")
+                    os.system ("/usr/lib/cgi-bin/toggledoor.cgi > /dev/null &");
                 # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
                 elif msgdict.get("cmd") == "SWITCH_KILN":
                     if config.kiln_name == "Chematex":

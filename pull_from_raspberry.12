@@ -14,5 +14,5 @@ scp pi@192.168.0.12:/home/pi/kiln-controller/public/index.html                pu
 scp pi@192.168.0.12:/home/pi/kiln-controller/public/site-content.html         public/
 scp pi@192.168.0.12:/home/pi/kiln-controller/public/assets/css/picoreflow.css public/assets/css/
 scp pi@192.168.0.12:/home/pi/kiln-controller/public/assets/js/picoreflow.js   public/assets/js/
-scp pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/*               storage/profiles/
+###scp pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/*               storage/profiles/
 

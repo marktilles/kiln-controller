@@ -125,7 +125,7 @@ emergency_shutoff_temp = 1270
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
 pid_control_window = 8 #degrees
-pid_control_window_ignore_until = 80 # degrees, ignore overswings until this temp
+pid_control_window_ignore_until = 600 # degrees, ignore overswings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can

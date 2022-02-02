@@ -28,7 +28,17 @@ var ws_storage = new WebSocket(host+"/storage");
 var oven_kw;
 var emergency_shutoff_temp;
 
-// ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES§:w
+// ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
+function UNLOCK_DOOR() {
+   	var cmd =
+   	{
+   	    "cmd": "UNLOCK_DOOR",
+  	 }
+  	 ws_control.send(JSON.stringify(cmd));
+}
+// ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
+
+// ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
 function SWITCH_KILN() {
 	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
    	var cmd =
