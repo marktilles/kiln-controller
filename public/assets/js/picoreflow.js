@@ -35,6 +35,16 @@ function UNLOCK_DOOR() {
    	    "cmd": "UNLOCK_DOOR",
   	 }
   	 ws_control.send(JSON.stringify(cmd));
+         $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Door opened for passage</b>", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'error', 'success')
+                        offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 385, // (integer, or 'auto')
+                        delay: 1000,
+                        allow_dismiss: true,
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+         });
 }
 // ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
 
