@@ -667,6 +667,7 @@ $(document).ready(function()
 
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
                     if (heat_now > 99) {
+                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small-red>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     // I want blinking red like original when full blast on
                       setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
                       setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
