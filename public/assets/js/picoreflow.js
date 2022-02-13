@@ -657,6 +657,7 @@ $(document).ready(function()
                     eta = new Date(left * 1000).toISOString().substr(11, 8);
 
                     updateProgress(parseFloat(x.runtime)/parseFloat(x.totaltime)*100);
+                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     $('#target_temp').html(parseInt(x.target));
 
                     // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
@@ -667,9 +668,8 @@ $(document).ready(function()
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
                     if (heat_now > 99) {
                     // I want blinking red like original when full blast on
-                    $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small-red>&#9832;&#xfe0e; ' + heat_now + '%</span>');
-    	                setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
-    	                setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
+                      setTimeout(function() { $('#heat').addClass("ds-led-heat-active") }, 0 )
+                      setTimeout(function() { $('#heat').removeClass("ds-led-heat-active") }, (x.heat*1000.0)-5)
                     }
                     // I want blinking yellow when heater is on but not full blast
                     else if (heat_now > 0.0) {
