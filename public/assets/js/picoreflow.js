@@ -131,12 +131,17 @@ function updateProgress(percentage)
     {
         if(percentage > 100) percentage = 100;
         $('#progressBar').css('width', percentage+'%');
+        // Hide controls when firing is underway.
+        $("#profile_selector").hide();
+
         if(percentage>5) $('#progressBar').html(parseInt(percentage)+'%');
     }
     else
     {
         $('#progressBar').css('width', 0+'%');
         $('#progressBar').html('');
+        // Display controls when not running a firing.
+        $("#profile_selector").show();
     }
 }
 
