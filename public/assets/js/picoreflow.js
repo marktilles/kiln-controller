@@ -131,17 +131,12 @@ function updateProgress(percentage)
     {
         if(percentage > 100) percentage = 100;
         $('#progressBar').css('width', percentage+'%');
-        // Hide controls when firing is underway.
-        $("#profile_selector").hide();
-
         if(percentage>5) $('#progressBar').html(parseInt(percentage)+'%');
     }
     else
     {
         $('#progressBar').css('width', 0+'%');
         $('#progressBar').html('');
-        // Display controls when not running a firing.
-        $("#profile_selector").show();
     }
 }
 
@@ -648,6 +643,7 @@ $(document).ready(function()
 
                 if(state=="RUNNING")
                 {
+                    $("#profile_selector").hide();
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
                     $("#nav_cancel").hide();
@@ -686,6 +682,7 @@ $(document).ready(function()
 
                 }
                 else if (state === "SCHEDULED") {
+                    $("#profile_selector").hide();
                     $("#nav_start").hide();
                     $("#nav_stop").hide();
                     $("#nav_cancel").show();
@@ -694,6 +691,7 @@ $(document).ready(function()
                 }
                 else
                 {
+                    $("#profile_selector").show();
                     $("#nav_start").show();
                     $("#nav_stop").hide();
                     $("#nav_cancel").hide();
