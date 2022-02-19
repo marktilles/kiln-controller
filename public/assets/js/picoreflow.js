@@ -643,6 +643,7 @@ $(document).ready(function()
 
                 if(state=="RUNNING")
                 {
+                    $("#changes_locked").show();
                     $("#profile_selector").hide();
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
@@ -682,6 +683,7 @@ $(document).ready(function()
 
                 }
                 else if (state === "SCHEDULED") {
+                    $("#changes_locked").show();
                     $("#profile_selector").hide();
                     $("#nav_start").hide();
                     $("#nav_stop").hide();
@@ -691,6 +693,7 @@ $(document).ready(function()
                 }
                 else
                 {
+                    $("#changes_locked").hide();
                     $("#profile_selector").show();
                     $("#nav_start").show();
                     $("#nav_stop").hide();
