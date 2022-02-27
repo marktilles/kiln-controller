@@ -50,7 +50,7 @@ function UNLOCK_DOOR() {
 
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
 function SWITCH_KILN() {
-	if (confirm('Switching kilns!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
+	if (confirm('Switching kiln instances!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
    	var cmd =
    	{
    	    "cmd": "SWITCH_KILN",
@@ -643,6 +643,7 @@ $(document).ready(function()
 
                 if(state=="RUNNING")
                 {
+                    $("#show_switch_kiln").hide();
                     $("#changes_locked").show();
                     $("#changes_locked_text").html(selected_profile_name); 
                     $("#profile_selector").hide();
@@ -684,6 +685,7 @@ $(document).ready(function()
 
                 }
                 else if (state === "SCHEDULED") {
+                    $("#show_switch_kiln").hide();
                     $("#changes_locked").show();
                     $("#changes_locked_text").html(selected_profile_name); 
                     $("#profile_selector").hide();
@@ -695,6 +697,7 @@ $(document).ready(function()
                 }
                 else
                 {
+                    $("#show_switch_kiln").show();
                     $("#changes_locked").hide();
                     $("#profile_selector").show();
                     $("#nav_start").show();
