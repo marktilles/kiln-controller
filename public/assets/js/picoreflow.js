@@ -50,16 +50,22 @@ function UNLOCK_DOOR() {
 
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
 function SWITCH_KILN() {
-	if (confirm('Switching kiln instances!\nCAUTION! This will cancel any current kiln firing!\nClick OK then wait 10 seconds before refreshing this page.')){
-   	var cmd =
-   	{
-   	    "cmd": "SWITCH_KILN",
-  	 }
-  	 ws_control.send(JSON.stringify(cmd));
-	}
-	else {
-	alert ("Kiln Switchover Canceled")
-	}
+        // Check hard-coded passcode
+        let inputtxt = prompt("CAUTION! Switching kiln instances will cancel any current kiln firing! Enter passcode then wait 10 seconds before refreshing page.\n\nEnter passcode to process:", "Harry Potter");
+        var passw="drejstugan";
+           if(inputtxt == passw)
+           {
+   	      var cmd =
+              {
+   	     "cmd": "SWITCH_KILN",
+  	      }
+  	      ws_control.send(JSON.stringify(cmd));
+           }
+           else
+           {
+           //   alert('Wrong pascode!')
+              return false;
+           }
 }
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES§:w
 
