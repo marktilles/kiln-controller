@@ -335,6 +335,7 @@ def get_config():
         "pid_kd": config.pid_kd,
         "oven_kw": config.oven_kw,
         "kiln_name": config.kiln_name,
+        "function_passcode": config.function_passcode,
         "kiln_must_catch_up": config.kiln_must_catch_up,
         "pid_control_window": config.pid_control_window,
         "emergency_shutoff_temp": config.emergency_shutoff_temp,

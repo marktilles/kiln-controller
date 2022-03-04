@@ -11,6 +11,8 @@ import os
 ########################################################################
 #
 #   General options
+kiln_name         = "Chematex"
+function_passcode = "drejstugan"
 
 ### Logging
 log_level = logging.INFO
@@ -25,7 +27,7 @@ listening_port = 8081
 kwh_rate        = 1.380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
 oven_kw         = 10000   # Watt capacity of oven
-kiln_name 	= "Chematex"
+
 
 ########################################################################
 #

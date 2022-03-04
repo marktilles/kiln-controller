@@ -32,8 +32,7 @@ var emergency_shutoff_temp;
 function checkPasscode () {
         // Check hard-coded passcode
         let inputtxt = prompt("CAUTION! Enter passcode to process command:", "Harry Potter");
-        var passw="drejstugan";
-        if(inputtxt == passw) {
+        if (inputtxt == function_passcode) {
              return true;
          }
         else {
@@ -764,6 +763,7 @@ $(document).ready(function()
             pid_kp = x.pid_kp;
             pid_ki = x.pid_ki;
             pid_kd = x.pid_kd;
+            function_passcode = x.function_passcode;
             kiln_name = x.kiln_name;
             emergency_shutoff_temp = x.emergency_shutoff_temp; // make variable emergency_shutoff_tempavailable here
             warnat = emergency_shutoff_temp -5; // make variable emergency_shutoff_tempavailable here
