@@ -28,14 +28,28 @@ var ws_storage = new WebSocket(host+"/storage");
 var oven_kw;
 var emergency_shutoff_temp;
 
+// Added simple passcode check routine
+function checkPasscode () {
+        // Check hard-coded passcode
+        let inputtxt = prompt("CAUTION! Enter passcode to process command:", "Harry Potter");
+        var passw="drejstugan";
+        if(inputtxt == passw) {
+             return true;
+         }
+        else {
+             return false;
+        }
+}
+
 // ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
 function UNLOCK_DOOR() {
-   	var cmd =
-   	{
-   	    "cmd": "UNLOCK_DOOR",
-  	 }
-  	 ws_control.send(JSON.stringify(cmd));
-         $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Door opened for passage</b>", {
+        if (checkPasscode() == true) {
+            var cmd =
+   	    {
+   	       "cmd": "UNLOCK_DOOR",
+  	    }
+  	    ws_control.send(JSON.stringify(cmd));
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Door opened for passage</b>", {
                         ele: 'body', // which element to append to
                         type: 'info', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -44,17 +58,14 @@ function UNLOCK_DOOR() {
                         delay: 1000,
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
-         });
+            });
+       }
 }
 // ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
 
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
 function SWITCH_KILN() {
-        // Check hard-coded passcode
-        let inputtxt = prompt("CAUTION! Switching kiln instances will cancel any current kiln firing! Enter passcode then wait 10 seconds before refreshing page.\n\nEnter passcode to process:", "Harry Potter");
-        var passw="drejstugan";
-           if(inputtxt == passw)
-           {
+           if (checkPasscode() == true) {
    	      var cmd =
               {
    	     "cmd": "SWITCH_KILN",
@@ -302,14 +313,10 @@ function runTaskSimulation()
 
 function abortTask()
 {
-    var cmd = {"cmd": "STOP"};
-    ws_control.send(JSON.stringify(cmd));
-}
-
-function actionTask()
-{
-    $("#nav_action").hide();
-    $("#nav_stop").show();
+    if (checkPasscode() == true) {
+       var cmd = {"cmd": "STOP"};
+       ws_control.send(JSON.stringify(cmd));
+   }
 }
 
 function enterNewMode()
@@ -651,12 +658,11 @@ $(document).ready(function()
                 {
                     $("#show_switch_kiln").hide();
                     $("#changes_locked").show();
-                    $("#changes_locked_text").html(selected_profile_name); 
+                    $("#changes_locked_text").html(selected_profile_name);
                     $("#profile_selector").hide();
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
-                    $("#nav_cancel").hide();
-                    $("#nav_action").show(); $("#nav_stop").hide();
+                    $("#nav_stop").show();
                     $("#timer").removeClass("ds-led-timer-active");
                     heat_now = (x.heat*50).toFixed(0); // This displays time percentage Heat is ON in heating cycle
 
@@ -693,7 +699,7 @@ $(document).ready(function()
                 else if (state === "SCHEDULED") {
                     $("#show_switch_kiln").hide();
                     $("#changes_locked").show();
-                    $("#changes_locked_text").html(selected_profile_name); 
+                    $("#changes_locked_text").html(selected_profile_name);
                     $("#profile_selector").hide();
                     $("#nav_start").hide();
                     $("#nav_stop").hide();
