@@ -4,7 +4,7 @@
 
 cd kiln-controller
 
-###scp config.py.chematex              pi@192.168.0.13:/home/pi/kiln-controller/config.py
+scp config.py.chematex              pi@192.168.0.13:/home/pi/kiln-controller/config.py
 ###scp storage/profiles/*              pi@192.168.0.13:/home/pi/kiln-controller/storage/profiles/
 scp kiln-controller.py                 pi@192.168.0.13:/home/pi/kiln-controller/
 scp lib/oven.py                        pi@192.168.0.13:/home/pi/kiln-controller/lib/oven.py

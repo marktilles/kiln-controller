@@ -9,7 +9,7 @@ cd kiln-controller
 scp kiln-controller.py                 pi@192.168.0.12:/home/pi/kiln-controller/
 scp lib/oven.py                        pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py
 scp public/index.html                  pi@192.168.0.12:/home/pi/kiln-controller/public/
-scp public/site-content.html           pi@192.168.0.12:/home/pi/kiln-controller/public/
+#scp public/site-content.html           pi@192.168.0.12:/home/pi/kiln-controller/public/
 scp public/assets/css/picoreflow.css   pi@192.168.0.12:/home/pi/kiln-controller/public/assets/css
 scp public/assets/js/picoreflow.js     pi@192.168.0.12:/home/pi/kiln-controller/public/assets/js/
 
@@ -18,7 +18,7 @@ scp public/assets/js/picoreflow.js     pi@192.168.0.12:/home/pi/kiln-controller/
 scp kiln-controller.py                 pi@192.168.0.12:/home/pi/rhode/
 scp lib/oven.py                        pi@192.168.0.12:/home/pi/rhode/lib/oven.py
 scp public/index.html                  pi@192.168.0.12:/home/pi/rhode/public/
-scp public/site-content.html           pi@192.168.0.12:/home/pi/kiln-controller/public/
+#scp public/site-content.html           pi@192.168.0.12:/home/pi/kiln-controller/public/
 scp public/assets/css/picoreflow.css   pi@192.168.0.12:/home/pi/rhode/public/assets/css
 scp public/assets/js/picoreflow.js     pi@192.168.0.12:/home/pi/rhode/public/assets/js/
 
