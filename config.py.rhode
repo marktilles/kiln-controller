@@ -149,3 +149,11 @@ temperature_average_samples = 40
 
 # Thermocouple AC frequency filtering - set to True if in a 50Hz locale, else leave at False for 60Hz locale
 ac_freq_50hz = True
+
+# There are all kinds of emergencies that can happen including:
+# - temperature is too high (emergency_shutoff_temp exceeded)
+# - lost connection to thermocouple
+# - unknown error with thermocouple
+# - too many errors in a short period from thermocouple
+# and some people just want to ignore all of that and just log the emergencies but do not quit
+ignore_emergencies = False

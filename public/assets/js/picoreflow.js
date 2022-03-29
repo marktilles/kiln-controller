@@ -67,13 +67,13 @@ function SWITCH_KILN() {
            if (checkPasscode() == true) {
    	      var cmd =
               {
-   	     "cmd": "SWITCH_KILN",
+   	         "cmd": "SWITCH_KILN",
   	      }
   	      ws_control.send(JSON.stringify(cmd));
            }
            else
            {
-           //   alert('Wrong pascode!')
+              alert('Wrong pascode!')
               return false;
            }
 }

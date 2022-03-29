@@ -16,6 +16,7 @@ scp pi@192.168.0.13:/home/pi/kiln-controller/public/assets/css/picoreflow.css pu
 scp pi@192.168.0.13:/home/pi/kiln-controller/public/assets/js/picoreflow.js   public/assets/js/
 rm storage/profiles/* 
 scp pi@192.168.0.13:/home/pi/kiln-controller/storage/profiles/*               storage/profiles/
+scp pi@192.168.0.13:/home/pi/rhode/storage/profiles/*                         storage/profiles.rhode
 
 scp pi@192.168.0.13:/etc/apache2.tar apache
 scp pi@192.168.0.13:/usr/lib/cgi-bin/* apache/cgi-bin
