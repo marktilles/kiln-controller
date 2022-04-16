@@ -31,7 +31,7 @@ var emergency_shutoff_temp;
 // Added simple passcode check routine
 function checkPasscode () {
         // Check hard-coded passcode
-        let inputtxt = prompt("CAUTION! Enter passcode to process command:", "Harry Potter");
+        let inputtxt = prompt("CAUTION! Enter passcode to process command:", "");
         if (inputtxt == function_passcode) {
              return true;
          }
@@ -58,7 +58,12 @@ function UNLOCK_DOOR() {
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
             });
-       }
+           }
+        else
+           {
+              alert('Wrong pascode!')
+              return false;
+           }
 }
 // ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
 
@@ -315,7 +320,12 @@ function abortTask()
     if (checkPasscode() == true) {
        var cmd = {"cmd": "STOP"};
        ws_control.send(JSON.stringify(cmd));
-   }
+    }
+    else
+    {
+       alert('Wrong pascode!')
+       return false;
+    }
 }
 
 function enterNewMode()
@@ -656,9 +666,11 @@ $(document).ready(function()
                 if(state=="RUNNING")
                 {
                     $("#show_switch_kiln").hide();
+                    // DONT ALLOW CHANGES UNDER ACTIVE FIRING
+                    $("#btn_delProfile").hide();
+                    $("#allow_save_button").hide();
                     $("#changes_locked").show();
-                    $("#changes_locked_text").html(selected_profile_name);
-                    $("#profile_selector").hide();
+                    // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
                     $("#nav_stop").show();
@@ -697,9 +709,11 @@ $(document).ready(function()
                 }
                 else if (state === "SCHEDULED") {
                     $("#show_switch_kiln").hide();
+                    // DONT ALLOW CHANGES UNDER ACTIVE FIRING
+                    $("#btn_delProfile").hide();
+                    $("#allow_save_button").hide();
                     $("#changes_locked").show();
-                    $("#changes_locked_text").html(selected_profile_name);
-                    $("#profile_selector").hide();
+                    // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#nav_start").hide();
                     $("#nav_stop").hide();
                     $("#nav_cancel").show();
@@ -708,6 +722,9 @@ $(document).ready(function()
                 }
                 else
                 {
+                    // DONT ALLOW CHANGES UNDER ACTIVE FIRING
+                    $("#allow_save_button").show();
+                    // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#show_switch_kiln").show();
                     $("#changes_locked").hide();
                     $("#profile_selector").show();

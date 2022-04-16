@@ -88,8 +88,8 @@
    </div>
   </div>
   <div class="panel panel-default">
+     <div id="changes_locked" style="display:none" class="btn btn-primary">Changes locked during active or scheduled firing. Please refresh browser window after clicking 'Return'</div>
    <div class="panel-heading">
-     <div id="changes_locked" style="display:none" class="btn btn-default">Changes locked for: <b><span id="changes_locked_text"></span></b></div>
      <div id="profile_selector" class="pull-left">
       <select id="e2" class="select2" style="margin-top: 4px"></select>
       <button id="btn_edit" type="button" class="btn btn-default" onclick="enterEditMode()"><span class="glyphicon glyphicon-edit"></span></button>
@@ -109,8 +109,8 @@
       <span class="input-group-addon">Schedule Name</span>
       <input id="form_profile_name" type="text" class="form-control" />
       <span class="input-group-btn">
-        <button class="btn btn-success" type="button" onclick="saveProfile();">Save</button>
-        <button id="btn_exit" type="button" class="btn btn-default" onclick="leaveEditMode()"><span class="glyphicon glyphicon-remove"></span></button>
+        <button id="allow_save_button" class="btn btn-success" type="button" onclick="saveProfile();">Save</button>
+        <button id="btn_exit" type="button" class="btn btn-primary" onclick="leaveEditMode()">Return <span class="glyphicon glyphicon-remove"></span></button>
       </span>
      </div>
      <div class="btn-group btn-group-sm" style="margin-top: 10px">

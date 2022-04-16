@@ -4,6 +4,7 @@
 from gpiozero import Button, LEDBoard
 from signal import pause
 import warnings, os, sys
+#service_running_ledGPIO = 6 # Old system
 service_running_ledGPIO = 16
 service_running_led=LEDBoard(service_running_ledGPIO)
 service_running_led.blink(on_time=1, off_time=1)
