@@ -88,7 +88,6 @@
    </div>
   </div>
   <div class="panel panel-default">
-     <div id="changes_locked" style="display:none" class="btn btn-primary">Changes locked during active or scheduled firing. Please refresh browser window after clicking 'Return'</div>
    <div class="panel-heading">
      <div id="profile_selector" class="pull-left">
       <select id="e2" class="select2" style="margin-top: 4px"></select>
@@ -114,16 +113,18 @@
       </span>
      </div>
      <div class="btn-group btn-group-sm" style="margin-top: 10px">
-      <button id="btn_newPoint" type="button" class="btn btn-default" onclick="newPoint()"><span class="glyphicon glyphicon-plus"></span></button>
-      <button id="btn_delPoint" type="button" class="btn btn-default" onclick="delPoint()"><span class="glyphicon glyphicon-minus"></span></button>
+      <button id="btn_newPoint" type="button" class="btn btn-danger" onclick="newPoint()"><span class="glyphicon glyphicon-plus"></span></button>
      </div>
      <div class="btn-group btn-group-sm" style="margin-top: 10px">
-      <button id="btn_table" type="button" class="btn btn-default" onclick="toggleTable()"><span class="glyphicon glyphicon-list"></span></button>
-      <button id="btn_live" type="button" class="btn btn-default" onclick="toggleLive()"><span class="glyphicon glyphicon-eye-open"></span></button>
+      <button id="btn_delPoint" type="button" class="btn btn-danger" onclick="delPoint()"><span class="glyphicon glyphicon-minus"></span></button>
+     </div>
+     <div class="btn-group btn-group-sm" style="margin-top: 10px">
+      <button id="btn_table" type="button" class="btn btn-primary" onclick="toggleTable()"><span class="glyphicon glyphicon-list"></span></button>
      </div>
      <div class="btn-group btn-group-sm" style="margin-top: 10px">
       <button id="btn_delProfile" type="button" class="btn btn-danger" data-toggle="modal" data-target="#delProfileModal"><span class="glyphicon glyphicon-trash"></span></button>
      </div>
+     <div id="changes_locked" style="margin-top: 12px" class="btn-group btn-group-sm">Changes locked during active or scheduled firing. To return to current firing curve, please refresh browser window after clicking 'Return'</div>
     </div>
    </div>
    <div class="panel-body">

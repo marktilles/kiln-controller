@@ -668,6 +668,9 @@ $(document).ready(function()
                     $("#show_switch_kiln").hide();
                     // DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#btn_delProfile").hide();
+                    $("#btn_newPoint").hide();
+                    $("#btn_delPoint").hide();
+                    $("#btn_new").hide();
                     $("#allow_save_button").hide();
                     $("#changes_locked").show();
                     // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
@@ -711,6 +714,9 @@ $(document).ready(function()
                     $("#show_switch_kiln").hide();
                     // DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#btn_delProfile").hide();
+                    $("#btn_newPoint").hide();
+                    $("#btn_delPoint").hide();
+                    $("#btn_new").hide();
                     $("#allow_save_button").hide();
                     $("#changes_locked").show();
                     // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
@@ -723,7 +729,11 @@ $(document).ready(function()
                 else
                 {
                     // DONT ALLOW CHANGES UNDER ACTIVE FIRING
+                    $("#btn_delProfile").show();
                     $("#allow_save_button").show();
+                    $("#btn_newPoint").show();
+                    $("#btn_delPoint").show();
+                    $("#btn_new").show();
                     // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#show_switch_kiln").show();
                     $("#changes_locked").hide();
