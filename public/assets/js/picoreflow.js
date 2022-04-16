@@ -137,7 +137,7 @@ function deleteProfile()
     $('#edit').hide();
     $('#profile_selector').show();
     $('#btn_controls').show();
-    $('#status').slideDown();
+    //$('#status').slideDown();
     $('#profile_table').slideUp();
     $('#e2').select2('val', 0);
     graph.profile.points.show = false;
@@ -331,7 +331,7 @@ function abortTask()
 function enterNewMode()
 {
     state="EDIT"
-    $('#status').slideUp();
+    //$('#status').slideUp();
     $('#edit').show();
     $('#profile_selector').hide();
     $('#btn_controls').hide();
@@ -347,7 +347,7 @@ function enterNewMode()
 function enterEditMode()
 {
     state="EDIT"
-    $('#status').slideUp();
+    //$('#status').slideUp();
     $('#edit').show();
     $('#profile_selector').hide();
     $('#btn_controls').hide();
@@ -367,7 +367,7 @@ function leaveEditMode()
     $('#edit').hide();
     $('#profile_selector').show();
     $('#btn_controls').show();
-    $('#status').slideDown();
+    //$('#status').slideDown();
     $('#profile_table').slideUp();
     graph.profile.points.show = false;
     graph.profile.draggable = false;
