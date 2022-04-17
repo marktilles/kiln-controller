@@ -346,6 +346,7 @@ function enterNewMode()
 
 function enterEditMode()
 {
+    $("#nav_cancel").hide();
     state="EDIT"
     //$('#status').slideUp();
     $('#edit').show();
@@ -361,6 +362,7 @@ function enterEditMode()
 
 function leaveEditMode()
 {
+    $("#nav_cancel").hide();
     selected_profile_name = $('#form_profile_name').val();
     ws_storage.send('GET');
     state="IDLE";
@@ -647,10 +649,11 @@ $(document).ready(function()
                     }
                     else if (state_last == "SCHEDULED")
                     {
+                        $("#nav_cancel").hide();
                         $('#target_temp').html('---');
                         updateProgress(0);
                         canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
-                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Scheduled run canceled " + canceltime + "</b>", {
+                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Schedule transitioned or canceled " + canceltime + "</b>", {
                         ele: 'body', // which element to append to
                         type: 'info', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -660,6 +663,10 @@ $(document).ready(function()
                         allow_dismiss: true,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                         });
+                    }
+                    else 
+                    {
+                        $("#nav_cancel").hide();
                     }
                 }
 
@@ -674,6 +681,7 @@ $(document).ready(function()
                     $("#allow_save_button").hide();
                     $("#changes_locked").show();
                     // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
+                    $("#nav_cancel").hide();
                     $('#schedule-status').hide()
                     $("#nav_start").hide();
                     $("#nav_stop").show();
