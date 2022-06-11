@@ -32,7 +32,7 @@ var emergency_shutoff_temp;
 function checkPasscode () {
         // Check hard-coded passcode
         let inputtxt = prompt("CAUTION! Enter passcode to process command:", "");
-        if (inputtxt == function_passcode) {
+        if ( ( (inputtxt.toUpperCase()).trim()) == ( ( function_passcode.toUpperCase() ).trim() ) ) {
              return true;
          }
         else {
@@ -70,10 +70,20 @@ function UNLOCK_DOOR() {
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
 function SWITCH_KILN() {
            if (checkPasscode() == true) {
-   	      var cmd =
+	      var cmd =
               {
    	         "cmd": "SWITCH_KILN",
   	      }
+   	      $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Restarting services, please wait 10 seconds before refreshing browser.</b>", {
+                ele: 'body', // which element to append to
+                type: 'info', // (null, 'info', 'error', 'success')
+                offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
+                align: 'center', // ('left', 'right', or 'center')
+                width: 385, // (integer, or 'auto')
+                delay: 3000,
+                allow_dismiss: true,
+                stackup_spacing: 10 // spacing between consecutively stacked growls.
+              });
   	      ws_control.send(JSON.stringify(cmd));
            }
            else
