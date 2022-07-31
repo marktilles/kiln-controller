@@ -295,7 +295,7 @@ class Oven(threading.Thread):
                 log.info("kiln must catch up, too hot, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
-            # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
+            # ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
             elif (temp < config.ignore_pid_control_window_until) and (temp - self.target > config.pid_control_window):
                 log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.ignore_pid_control_window_until)
 
@@ -553,7 +553,7 @@ class RealOven(Oven):
         # self.heat is for the front end to display if the heat is on
         self.heat = 0.0
         if heat_on > 0:
-            # MARK TILLES WANTS ACTUAL VALUE SENT TO PICOREFLOW.JS
+            # WANT ACTUAL VALUE SENT TO PICOREFLOW.JS
             #self.heat = 1.0
             self.heat = heat_on
 

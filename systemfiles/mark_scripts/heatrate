@@ -21,7 +21,7 @@ if [[ "$prevtime" != "$heattime" ]]
             #echo "heattemp - prevtemp=: ("$heattemp "-" $prevtemp ") -> heatdiff = "$heatdiff "-> heatrate = "$heatrate
             echo "prevtime "$prevtime "heattime "$heattime "Temp "$heattemp " Heatrate "$heatrate
             prevtemp=$heattemp
-         else 
+         else
             counter=$((counter + 1))
          fi
 	    prevtime=$heattime
@@ -55,9 +55,8 @@ I dont care if there are duplicate entries, I do 3 lines at a time because
 If the time hasn't changed from the previous entry, delete the current entry.
 
 The MOMENT the time changes at all, take a difference of the temperatures
-between NOW and the saved value, then multiply this value times 60 to get 
+between NOW and the saved value, then multiply this value times 60 to get
 rate of heating change per hour.
 
 Print this to the screen (or beter yet, return the output to the HTML screen)
 */
-

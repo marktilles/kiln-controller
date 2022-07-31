@@ -11,7 +11,7 @@ from lib.max31856 import MAX31856
 ########################################################################
 #
 #   General options
-kiln_name         = "Chematex"
+kiln_name = "Chematex"
 function_passcode = "unni"
 
 ### Logging
@@ -27,7 +27,6 @@ listening_port = 8081
 kwh_rate        = 1.380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
 oven_kw         = 10000   # Watt capacity of oven
-
 
 ########################################################################
 #
@@ -66,7 +65,6 @@ gpio_sensor_di = 10 # only used with max31856
 # temperature_average_samples times during and the average value is used.
 sensor_time_wait = 2
 
-
 ########################################################################
 #
 #   PID parameters
@@ -75,16 +73,10 @@ sensor_time_wait = 2
 # well with the simulated oven. You must tune them to work well with
 # your specific kiln. Note that the integral pid_ki is
 # inverted so that a smaller number means more integral action.
-# Marks earlier values
-
-# My notes from July 18 burn:
-# I have continual oscillations until the system can’t keep up with the target temp.
-# At top temp I never reach the target temp, always 2C under.
 
 # If you have oscillations that don't stop or increase in size, reduce pid_kp
 # If you have an oscillation but the temperature is mostly below the setpoint, decrease pid_ki.
-#
-#NEW VALUES FOR NEXT BURN
+
 pid_kp = 40   # Proportional was 50
 pid_ki = 200  # Integral was 400
 pid_kd = 800  # Derivative
@@ -109,7 +101,6 @@ sim_R_o_nocool = 0.5   # K/W  thermal resistance oven -> environment
 sim_R_o_cool   = 0.05   # K/W  " with cooling
 sim_R_ho_noair = 0.1    # K/W  thermal resistance heat element -> oven
 sim_R_ho_air   = 0.05   # K/W  " with internal air circulation
-
 
 ########################################################################
 #
@@ -143,15 +134,15 @@ kiln_must_catch_up = True
 # or 100% off because the kiln is too hot. No integral builds up
 # outside the window. The bigger you make the window, the more
 # integral you will accumulate.
-pid_control_window = 8 #degrees
-ignore_pid_control_window_until = 80 # degrees, ignore overswings until this temp
+pid_control_window = 5 #degrees
+ignore_pid_control_window_until = 80 # degrees, ignore over-swings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can
 # set set this offset to -4 to compensate.  This probably means you have a
 # cheap thermocouple.  Invest in a better thermocouple.
-# CHEMATEX OVEN  thermocouple_offset=-0.5
-thermocouple_offset=-0.5
+# CHEMATEX OVEN  thermocouple_offset = -0.5
+thermocouple_offset = -0.5
 
 # some kilns/thermocouples start erroneously reporting "short"
 # errors at higher temperatures due to plasma forming in the kiln.

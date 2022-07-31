@@ -3,12 +3,14 @@
 ##### RHODE OVEN #####
 
 import logging
+import os
+
+# uncomment this if using MAX-31856
 from lib.max31856 import MAX31856
 
 ########################################################################
 #
 #   General options
-
 kiln_name	= "Rhode"
 function_passcode = "unni"
 
@@ -22,8 +24,6 @@ listening_port = 8081
 
 ### Cost Estimate
 # Mark's cost June 2021 Vattenfall all taxes and fees SEK 42,64 => 42,64 /kWt
-# Mark's cost June 2021 EON all taxes and fees SEK 383,75/mo * 12/18000 = 2,26 kr/kWt, elöverföring 58,90/kWt
-# Total thus 42,64 + 2,26 + 58,90 = 103,80 kr/kWt/kWt
 kwh_rate        = 1.380  # Rate in currency_type to calculate cost to run job
 currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
 oven_kw         = 5000    # Watt capacity of oven
@@ -38,6 +38,7 @@ oven_kw         = 5000    # Watt capacity of oven
 #   can use whichever GPIO you prefer/have available.
 
 ### Outputs
+
 gpio_heat = 17  # Switches zero-cross solid-state-relay
 
 ### Thermocouple Adapter selection:
@@ -46,9 +47,10 @@ gpio_heat = 17  # Switches zero-cross solid-state-relay
 max31855 = 0
 max31856 = 1
 # see lib/max31856.py for other thermocouple_type, only applies to max31856
+# uncomment this if using MAX-31856
 thermocouple_type = MAX31856.MAX31856_S_TYPE
 
-### Thermocouple Connection (using bitbang interfaces)
+### Thermocouple Connection
 gpio_sensor_cs = 5
 gpio_sensor_clock = 11
 gpio_sensor_data = 9
@@ -63,7 +65,6 @@ gpio_sensor_di = 10 # only used with max31856
 # temperature_average_samples times during and the average value is used.
 sensor_time_wait = 2
 
-
 ########################################################################
 #
 #   PID parameters
@@ -72,20 +73,20 @@ sensor_time_wait = 2
 # well with the simulated oven. You must tune them to work well with
 # your specific kiln. Note that the integral pid_ki is
 # inverted so that a smaller number means more integral action.
-pid_kp = 20   # Proportional
-pid_ki = 70  # Integral
-pid_kd = 200  # Derivative
 
+# If you have oscillations that don't stop or increase in size, reduce pid_kp
+# If you have an oscillation but the temperature is mostly below the setpoint, decrease pid_ki.
+
+pid_kp = 20   # Proportional
+pid_ki = 70   # Integral
+pid_kd = 200  # Derivative
 
 ########################################################################
 #
 # Initial heating and Integral Windup
 #
-# During initial heating, if the temperature is constantly under the
-# setpoint,large amounts of Integral can accumulate. This accumulation
-# causes the kiln to run above the setpoint for potentially a long
-# period of time. These settings allow integral accumulation only when
-# the temperature is close to the setpoint. This applies only to the integral.
+# this setting is deprecated and is no longer used. this happens by
+# default and is the expected behavior.
 stop_integral_windup = True
 
 ########################################################################
@@ -93,14 +94,13 @@ stop_integral_windup = True
 #   Simulation parameters
 simulate = False
 sim_t_env      = 60.0   # deg C
-sim_p_heat     = 10000 # W    heating power of oven
-sim_c_oven     = 10000.0 # J/K  heat capacity of oven
-sim_c_heat     = 100.0  # J/K  heat capacity of heat element
-sim_R_o_nocool = 1.0    # K/W  thermal resistance oven -> environment
+sim_c_heat     = 500.0  # J/K  heat capacity of heat element
+sim_c_oven     = 5000.0 # J/K  heat capacity of oven
+sim_p_heat     = 5450.0 # W    heating power of oven
+sim_R_o_nocool = 0.5   # K/W  thermal resistance oven -> environment
 sim_R_o_cool   = 0.05   # K/W  " with cooling
 sim_R_ho_noair = 0.1    # K/W  thermal resistance heat element -> oven
 sim_R_ho_air   = 0.05   # K/W  " with internal air circulation
-
 
 ########################################################################
 #
@@ -121,19 +121,28 @@ time_scale_profile  = "m" # s = Seconds | m = Minutes | h = Hours - Enter and vi
 emergency_shutoff_temp = 1270
 
 # If the kiln cannot heat or cool fast enough and is off by more than
-# pid_control_window  the entire schedule is shifted until
+# pid_control_window the entire schedule is shifted until
 # the desired temperature is reached. If your kiln cannot attain the
 # wanted temperature, the schedule will run forever. This is often used
 # for heating as fast as possible in a section of a kiln schedule/profile.
 kiln_must_catch_up = True
-pid_control_window = 8 #degrees
-pid_control_window_ignore_until = 600 # degrees, ignore overswings until this temp
+
+# This setting is required.
+# This setting defines the window within which PID control occurs.
+# Outside this window (N degrees below or above the current target)
+# the elements are either 100% on because the kiln is too cold
+# or 100% off because the kiln is too hot. No integral builds up
+# outside the window. The bigger you make the window, the more
+# integral you will accumulate.
+pid_control_window = 5 #degrees
+ignore_pid_control_window_until = 80 # degrees, ignore over-swings until this temp
 
 # thermocouple offset
 # If you put your thermocouple in ice water and it reads 36F, you can
 # set set this offset to -4 to compensate.  This probably means you have a
 # cheap thermocouple.  Invest in a better thermocouple.
-thermocouple_offset=0
+# CHEMATEX OVEN  thermocouple_offset = -0.5
+thermocouple_offset = 0
 
 # some kilns/thermocouples start erroneously reporting "short"
 # errors at higher temperatures due to plasma forming in the kiln.
@@ -149,3 +158,25 @@ temperature_average_samples = 40
 
 # Thermocouple AC frequency filtering - set to True if in a 50Hz locale, else leave at False for 60Hz locale
 ac_freq_50hz = True
+
+# There are all kinds of emergencies that can happen including:
+# - temperature is too high (emergency_shutoff_temp exceeded)
+# - lost connection to thermocouple
+# - unknown error with thermocouple
+# - too many errors in a short period from thermocouple
+# and some people just want to ignore all of that and just log the emergencies but do not quit
+ignore_emergencies = False
+
+########################################################################
+# automatic restarts - if you have a power brown-out and the raspberry pi
+# reboots, this restarts your kiln where it left off in the firing profile.
+# This only happens if power comes back before automatic_restart_window
+# is exceeded (in minutes). The kiln-controller.py process must start
+# automatically on boot-up for this to work.
+# DO NOT put automatic_restart_state_file anywhere in /tmp. It could be
+# cleaned up (deleted) by the OS on boot.
+# The state file is written to disk every sensor_time_wait seconds (2s by default)
+# and is written in the same directory as config.py.
+automatic_restarts = True
+automatic_restart_window = 15 # max minutes since power outage
+automatic_restart_state_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ),'state.json'))

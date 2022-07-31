@@ -674,7 +674,7 @@ $(document).ready(function()
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                         });
                     }
-                    else 
+                    else
                     {
                         $("#nav_cancel").hide();
                     }
@@ -708,7 +708,7 @@ $(document).ready(function()
                     $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     $('#target_temp').html(parseInt(x.target));
 
-                    // MARK TILLES WANTS TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
+                    // WANT TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
                     $('#running').addClass("ds-led-heat-active");   // RUNNING
                     $('#idle').removeClass("ds-led-hazard-active"); // IDLE
