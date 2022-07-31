@@ -340,7 +340,7 @@ def get_config():
         "kiln_must_catch_up": config.kiln_must_catch_up,
         "pid_control_window": config.pid_control_window,
         "emergency_shutoff_temp": config.emergency_shutoff_temp,
-        "pid_control_window_ignore_until": config.pid_control_window_ignore_until})
+        "ignore_pid_control_window_until": config.ignore_pid_control_window_until})
         # ADDED TO PORT IN MORE INFO FROM BACKEND
 
 def main():

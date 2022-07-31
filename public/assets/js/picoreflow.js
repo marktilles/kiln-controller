@@ -768,7 +768,7 @@ $(document).ready(function()
 		}
 
                 $('#act_temp').html(parseInt(x.temperature));
-                $('#heat').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
+                $('#progressBar').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
 
                 if (x.temperature > warnat)
                 {

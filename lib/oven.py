@@ -287,17 +287,17 @@ class Oven(threading.Thread):
                 log.info("kiln must catch up, too cold, shifting schedule")
                 self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
             # kiln too hot, wait for it to cool down
-            ### MARK TILLES MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
+            ### MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
             ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
             ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
             #if temp - self.target > config.pid_control_window:
-            if (temp >= config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
+            if (temp >= config.ignore_pid_control_window_until) and (temp - self.target > config.pid_control_window):
                 log.info("kiln must catch up, too hot, shifting schedule")
                 self.start_time = self.start_time + \
                     datetime.timedelta(seconds=self.time_step)
             # MARK TILLES ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
-            else if (temp < config.pid_control_window_ignore_until) and (temp - self.target > config.pid_control_window):
-                log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.pid_control_window_ignore_until)
+            elif (temp < config.ignore_pid_control_window_until) and (temp - self.target > config.pid_control_window):
+                log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.ignore_pid_control_window_until)
 
     def update_runtime(self):
 
