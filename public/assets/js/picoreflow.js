@@ -80,7 +80,7 @@ function SWITCH_KILN() {
                 offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                 align: 'center', // ('left', 'right', or 'center')
                 width: 385, // (integer, or 'auto')
-                delay: 3000,
+                delay: 10000,
                 allow_dismiss: true,
                 stackup_spacing: 10 // spacing between consecutively stacked growls.
               });
@@ -662,17 +662,17 @@ $(document).ready(function()
                         $("#nav_cancel").hide();
                         $('#target_temp').html('---');
                         updateProgress(0);
-                        canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
-                        $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Schedule transitioned or canceled " + canceltime + "</b>", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'error', 'success')
-                        offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 385, // (integer, or 'auto')
-                        delay: 3000,
-                        allow_dismiss: true,
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                        });
+                        //canceltime = new Date().toLocaleTimeString();//.substr(11, 8);
+                        //$.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Schedule transitioned or canceled " + canceltime + "</b>", {
+                        //ele: 'body', // which element to append to
+                        //type: 'info', // (null, 'info', 'error', 'success')
+                        //offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
+                        //align: 'center', // ('left', 'right', or 'center')
+                        //width: 385, // (integer, or 'auto')
+                        //delay: 3000,
+                        //allow_dismiss: true,
+                        //stackup_spacing: 10 // spacing between consecutively stacked growls.
+                        //});
                     }
                     else
                     {
@@ -768,7 +768,7 @@ $(document).ready(function()
 		}
 
                 $('#act_temp').html(parseInt(x.temperature));
-                $('#progressBar').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
+                //$('#progressBar').html('<div class="bar" style="height:'+x.pidstats.out*70+'%;"></div>')
 
                 if (x.temperature > warnat)
                 {
@@ -814,7 +814,7 @@ $(document).ready(function()
             warnat = emergency_shutoff_temp -5; // make variable emergency_shutoff_tempavailable here
             kiln_must_catch_up = x.kiln_must_catch_up;
             pid_control_window = x.pid_control_window;
-            pid_control_window_ignore_until = x.pid_control_window_ignore_until;
+            ignore_pid_control_window_until = x.ignore_pid_control_window_until;
             $("#pid_kp").html(pid_kp); // Define variable for web instance
             $("#pid_ki").html(pid_ki); // Define variable for web instance
             $("#pid_kd").html(pid_kd); // Define variable for web instance
@@ -823,7 +823,7 @@ $(document).ready(function()
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)
             {
-                $("#catch_up_max").html(pid_control_window + "\/" + pid_control_window_ignore_until); // Define variable for web instance
+                $("#catch_up_max").html(pid_control_window + "\/" + ignore_pid_control_window_until); // Define variable for web instance
             }
             else
             {
