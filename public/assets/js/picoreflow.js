@@ -711,6 +711,12 @@ $(document).ready(function()
                     // WANT TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
                     $('#running').addClass("ds-led-heat-active");   // RUNNING
+                    if (x.temperature > x.target)
+                       {
+                        $('#running').removeClass("ds-led-heat-active"); // RUNNING
+                        $('#running').addClass("ds-led-cool-active"); // RUNNING
+
+                       }
                     $('#idle').removeClass("ds-led-hazard-active"); // IDLE
 
                     // Add compare statements, I want to show different heating icon color depending on amount of heating
@@ -765,6 +771,7 @@ $(document).ready(function()
 
                     $('#idle').addClass("ds-led-hazard-active");     // IDLE
                     $('#running').removeClass("ds-led-heat-active"); // RUNNING
+                    $('#running').removeClass("ds-led-cool-active"); // RUNNING
 		}
 
                 $('#act_temp').html(parseInt(x.temperature));
