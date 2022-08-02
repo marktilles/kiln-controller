@@ -15,7 +15,7 @@ scp ../public/assets/js/picoreflow.js     pi@192.168.0.13:/home/pi/kiln-controll
 
 # RHODE OVEN INSTANCE
 
-scp ../config.py.kiln-controller2         pi@192.168.0.13:/home/pi/kiln-controller2/config.py
+scp ../config.py.rhode                    pi@192.168.0.13:/home/pi/kiln-controller2/config.py
 ###scp ../storage/profiles/*              pi@192.168.0.13:/home/pi/kiln-controller2/storage/profiles/
 scp ../kiln-controller.py                 pi@192.168.0.13:/home/pi/kiln-controller2/
 scp ../lib/oven.py                        pi@192.168.0.13:/home/pi/kiln-controller2/lib/oven.py
