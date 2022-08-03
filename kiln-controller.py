@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 
-# START BLINKING GREEN LED WHEN SERVICE IS RUNNING
-from gpiozero import Button, LEDBoard
-from signal import pause
-import warnings, os, sys
-#service_running_ledGPIO = 6 # Old system
-service_running_ledGPIO = 16
-service_running_led=LEDBoard(service_running_ledGPIO)
-service_running_led.blink(on_time=1, off_time=1)
-# END - START BLINKING GREEN LED WHEN SERVICE IS RUNNING
-
 import os
 import sys
 import logging
@@ -45,6 +35,17 @@ from oven import SimulatedOven, RealOven, Profile
 from ovenWatcher import OvenWatcher
 
 app = bottle.Bottle()
+
+# START BLINKING LED WHEN SERVICE IS RUNNING. REM OUT SECTION IF NOT DESIRED
+if config.service_running_led == True:
+    log.info("Starting GPIO service-running LED on GPIO " + str(config.service_running_led_gpio))
+    from gpiozero import Button, LEDBoard
+    from signal import pause
+    import warnings, os, sys
+    service_running_ledGPIO = config.service_running_led_gpio
+    service_running_led=LEDBoard(service_running_ledGPIO)
+    service_running_led.blink(on_time=1, off_time=1)
+# END - START BLINKING LED WHEN SERVICE IS RUNNING
 
 if config.simulate == True:
     log.info("this is a simulation")
@@ -336,6 +337,7 @@ def get_config():
         "pid_kd": config.pid_kd,
         "oven_kw": config.oven_kw,
         "kiln_name": config.kiln_name,
+        "service_running_led_gpio": config.service_running_led_gpio,
         "function_passcode": config.function_passcode,
         "kiln_must_catch_up": config.kiln_must_catch_up,
         "pid_control_window": config.pid_control_window,
