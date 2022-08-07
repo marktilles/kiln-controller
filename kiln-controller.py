@@ -197,21 +197,23 @@ def handle_control():
                 elif msgdict.get("cmd") == "STOP":
                     log.info("Stop command received")
                     oven.abort_run()
-                elif msgdict.get("cmd") == "UNLOCK_DOOR":
-                    log.info("Unlock Door command received")
-                    #os.system ("/usr/lib/cgi-bin/toggledoor.cgi 'Door has been opened' > /dev/null &");
-                    os.system ("/usr/lib/cgi-bin/toggledoor.cgi > /dev/null &");
+                elif msgdict.get("cmd") == "BACKEND_FUNCTION_1":
+                    log.info("BACKEND_FUNCTION_1 command received")
+                    #sample function, these backend scripts are simple password protected - see config.py
+                    #os.system ("/usr/lib/cgi-bin/toggledoor.cgi > /dev/null &");
                 # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
-                elif msgdict.get("cmd") == "SWITCH_KILN":
+                elif msgdict.get("cmd") == "BACKEND_FUNCTION_2":
+                    log.info("BACKEND_FUNCTION_2 command received")
+                    #these backend scripts are simple password protected, password and kiln names are in the config file config.py
                     if config.kiln_name == "Chematex":
-                       log.info("Switching KILN to Rhode kiln")
+                       log.info("Switching to Rhode kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/rhode &")
                     else:
-                       log.info("Switching KILN to Chematex kiln")
+                       log.info("Switching to Chematex kiln")
                        oven.abort_run()
                        os.system ("/home/pi/mark_scripts/chematex &")
-                # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
+                # END SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER
         except WebSocketError as e:
             log.error(e)
             break

@@ -40,15 +40,15 @@ function checkPasscode () {
         }
 }
 
-// ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
-function UNLOCK_DOOR() {
+// ADDED OPTON TO HAVE BACKEND FUNCTION
+function BACKEND_FUNCTION_1() {
         if (checkPasscode() == true) {
             var cmd =
    	    {
-   	       "cmd": "UNLOCK_DOOR",
+   	       "cmd": "BACKEND_FUNCTION_1",
   	    }
   	    ws_control.send(JSON.stringify(cmd));
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Door opened for passage</b>", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>BACKEND_FUNCTION_1 executed</b>", {
                         ele: 'body', // which element to append to
                         type: 'info', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -65,14 +65,14 @@ function UNLOCK_DOOR() {
               return false;
            }
 }
-// ADDED TO UNLOCK DREJSTUGA DOOR WITH GPIO CONTROLLED SOLENOID
+// END ADDED OPTON TO HAVE BACKEND FUNCTION
 
 // ADDED TO BE ABLE TO SWAP BETWEEN TWO DIFFERENT KILN INSTANCES
-function SWITCH_KILN() {
+function BACKEND_FUNCTION_2() {
            if (checkPasscode() == true) {
 	      var cmd =
               {
-   	         "cmd": "SWITCH_KILN",
+   	         "cmd": "BACKEND_FUNCTION_2",
   	      }
    	      $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Restarting services, please wait 10 seconds before refreshing browser.</b>", {
                 ele: 'body', // which element to append to
@@ -682,7 +682,7 @@ $(document).ready(function()
 
                 if(state=="RUNNING")
                 {
-                    $("#show_switch_kiln").hide();
+                    $("#show_BACKEND_FUNCTION_2").hide();
                     // DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#btn_delProfile").hide();
                     $("#btn_newPoint").hide();
@@ -735,7 +735,7 @@ $(document).ready(function()
 
                 }
                 else if (state === "SCHEDULED") {
-                    $("#show_switch_kiln").hide();
+                    $("#show_BACKEND_FUNCTION_2").hide();
                     // DONT ALLOW CHANGES UNDER ACTIVE FIRING
                     $("#btn_delProfile").hide();
                     $("#btn_newPoint").hide();
@@ -759,7 +759,7 @@ $(document).ready(function()
                     $("#btn_delPoint").show();
                     $("#btn_new").show();
                     // END DONT ALLOW CHANGES UNDER ACTIVE FIRING
-                    $("#show_switch_kiln").show();
+                    $("#show_BACKEND_FUNCTION_2").show();
                     $("#changes_locked").hide();
                     $("#profile_selector").show();
                     $("#nav_start").show();

@@ -4,7 +4,7 @@
 
 # CHEMATEXT OVEN INSTANCE
 
-scp ../config.py.chematex                 pi@192.168.0.12:/home/pi/kiln-controller/config.py
+###scp ../config.py.chematex                 pi@192.168.0.12:/home/pi/kiln-controller/config.py
 ###scp ../storage/profiles/*              pi@192.168.0.12:/home/pi/kiln-controller/storage/profiles/
 scp ../kiln-controller.py                 pi@192.168.0.12:/home/pi/kiln-controller/
 scp ../lib/oven.py                        pi@192.168.0.12:/home/pi/kiln-controller/lib/oven.py
@@ -15,7 +15,7 @@ scp ../public/assets/js/picoreflow.js     pi@192.168.0.12:/home/pi/kiln-controll
 
 # RHODE OVEN INSTANCE
 
-scp ../config.py.rhode                    pi@192.168.0.12:/home/pi/kiln-controller2/config.py
+###scp ../config.py.rhode                    pi@192.168.0.12:/home/pi/kiln-controller2/config.py
 ###scp ../storage/profiles/*              pi@192.168.0.12:/home/pi/kiln-controller2/storage/profiles/
 scp ../kiln-controller.py                 pi@192.168.0.12:/home/pi/kiln-controller2/
 scp ../lib/oven.py                        pi@192.168.0.12:/home/pi/kiln-controller2/lib/oven.py
