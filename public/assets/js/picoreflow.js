@@ -293,6 +293,18 @@ function runTask()
 
 function scheduleTask()
 {
+  // Start and stop the selected curve so the screen will show correct scheduled curve at refreshing
+  var cmd =
+  {
+      "cmd": "RUN",
+      "profile": profiles[selected_profile]
+   }
+   ws_control.send(JSON.stringify(cmd));
+   // Start and stop the selected curve so the screen will show correct scheduled curve at refreshing
+   var cmd = {"cmd": "STOP"};
+   ws_control.send(JSON.stringify(cmd));
+
+  // Now proceed with scheduling the firing curve
     const startTime = document.getElementById('scheduled-run-time').value;
     console.log(startTime);
 
