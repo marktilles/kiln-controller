@@ -276,28 +276,35 @@ class Oven(threading.Thread):
         self.reset()
         self.save_automatic_restart_state()
 
+
     def kiln_must_catch_up(self):
         '''shift the whole schedule forward in time by one time_step
         to wait for the kiln to catch up'''
         if config.kiln_must_catch_up == True:
-            temp = self.board.temp_sensor.temperature + \
-                config.thermocouple_offset
-            # kiln too cold, wait for it to heat up
-            if self.target - temp > config.pid_control_window:
-                log.info("kiln must catch up, too cold, shifting schedule")
-                self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
-            # kiln too hot, wait for it to cool down
-            ### MODIFIED. I DON'T CARE ABOUT OVERSHOOTS EARLY ON IN THE FIRING CURVE, LIKE <100C
-            ### MY OVENS OVERSHOOT AS MUCH AS 10C AT LOW TEMPS IF TARGET TEMP IS MORE THAT A FEW DEGREES
-            ### ABOVE SENSOR TEMP AT START SO I WANT THE CURVE TO CONTINUE PROGRESSING ANYWAY. SET FIXED VALUE:
-            #if temp - self.target > config.pid_control_window:
-            if (temp >= config.ignore_pid_control_window_until) and (temp - self.target > config.pid_control_window):
-                log.info("kiln must catch up, too hot, shifting schedule")
-                self.start_time = self.start_time + \
-                    datetime.timedelta(seconds=self.time_step)
-            # ADD ALTERNATE MESSAGING WHEN IGNORING CATCH-UP
-            elif (temp < config.ignore_pid_control_window_until) and (temp - self.target > config.pid_control_window):
-                log.info("over-swing detected, catch-up disabled, retaining schedule anyway while sensor temp is less than %s" % config.ignore_pid_control_window_until)
+            temp = self.board.temp_sensor.temperature + config.thermocouple_offset
+
+            # If (ambient temp in kiln room) > (firing curve start temp + catch-up), curve will never start
+            # Or, if oven overswings at low temps beyond the catch-up value, the timer pauses while cooling.
+            #  I'd lke the timer to continue regardless of these two cases.
+            if (temp < config.ignore_pid_control_window_until):
+                # kiln too cold, wait for it to heat up
+                if self.target - temp > config.pid_control_window:
+                    log.info("kiln must catch up, too cold, shifting schedule")
+                    self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
+                    # kiln too hot, wait for it to cool down
+                if temp - self.target > config.pid_control_window:
+                    log.info("over-swing detected, ignoring catch-up, continuing schedule anyway while sensor temp is under %s" % config.ignore_pid_control_window_until)
+                    #self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
+            else: # original code
+                # kiln too cold, wait for it to heat up
+                if self.target - temp > config.pid_control_window:
+                    log.info("kiln must catch up, too cold, shifting schedule")
+                    self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
+                    # kiln too hot, wait for it to cool down
+                if temp - self.target > config.pid_control_window:
+                    log.info("kiln must catch up, too hot, shifting schedule")
+                    self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
+
 
     def update_runtime(self):
 
@@ -647,6 +654,7 @@ class PID():
         out4logs = 0
         dErr = 0
         if error < (-1 * config.pid_control_window):
+        #if (error < (-1 * config.pid_control_window)) and (temp >= config.ignore_pid_control_window_until):
             log.info("kiln outside pid control window, max cooling")
             output = 0
             # it is possible to set self.iterm=0 here and also below
