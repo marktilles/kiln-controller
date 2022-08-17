@@ -293,7 +293,7 @@ class Oven(threading.Thread):
                     self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
                     # kiln too hot, wait for it to cool down
                 if temp - self.target > config.pid_control_window:
-                    log.info("over-swing detected, ignoring catch-up, continuing schedule anyway while sensor temp is under %s" % config.ignore_pid_control_window_until)
+                    log.info("over-swing detected, continuing schedule timer while sensor temp < ignore_pid_control_window_until = %s" % config.ignore_pid_control_window_until)
                     #self.start_time = datetime.datetime.now() - datetime.timedelta(milliseconds = self.runtime * 1000)
             else: # original code
                 # kiln too cold, wait for it to heat up
