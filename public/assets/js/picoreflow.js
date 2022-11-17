@@ -257,25 +257,25 @@ function hazardTemp(){
     }
 }
 
-function timeTickFormatter(val)
+function timeTickFormatter(val,axis)
 {
-    if (val < 1800)
-    {
-        return val;
-    }
-    else
-    {
-        var hours = Math.floor(val / (3600));
-        var div_min = val % (3600);
-        var minutes = Math.floor(div_min / 60);
+// hours
+if(axis.max>3600) {
+  //var hours = Math.floor(val / (3600));
+  //return hours;
+  return Math.floor(val/3600);
+  }
 
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
+// minutes
+if(axis.max<=3600) {
+  return Math.floor(val/60);
+  }
 
-        return hours+":"+minutes;
-    }
+// seconds
+if(axis.max<=60) {
+  return val;
+  }
 }
-
 function runTask()
 {
     var cmd =
@@ -474,6 +474,34 @@ function saveProfile()
     leaveEditMode();
 }
 
+function get_tick_size() {
+switch(time_scale_profile){
+  case "s":
+    return 1;
+    return 3600;
+  case "m":
+    return 60;
+    //return 3600;
+  case "h":
+    return 3600;
+  }
+return 3600;
+}
+
+function get_tick_size_mt() {
+switch(time_scale_profile){
+  case "s":
+    //return 1;
+    return 3600;
+  case "m":
+    //return 60;
+    return 3600;
+  case "h":
+    return 3600;
+  }
+return 3600;
+}
+
 function getOptions()
 {
 
@@ -503,6 +531,7 @@ function getOptions()
       min: 0,
       tickColor: 'rgba(216, 211, 197, 0.2)',
       tickFormatter: timeTickFormatter,
+      tickSize: get_tick_size_mt(),
       font:
       {
         size: 14,
