@@ -7,13 +7,13 @@ var time_mode = 0;
 var selected_profile = 0;
 var selected_profile_name = 'cone-05-long-bisque.json';
 var temp_scale = "c";
-var time_scale_slope = "s";
-var time_scale_profile = "s";
+var time_scale_slope = "h";
+var time_scale_profile = "h";
 var time_scale_long = "Seconds";
 var temp_scale_display = "C";
 var kwh_rate = 0.26;
 var currency_type = "EUR";
-
+var function_passcode = "ABCDE";
 
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
@@ -33,9 +33,11 @@ function checkPasscode () {
         // Check hard-coded passcode
         let inputtxt = prompt("CAUTION! Enter passcode to process command:", "");
         if ( ( (inputtxt.toUpperCase()).trim()) == ( ( function_passcode.toUpperCase() ).trim() ) ) {
+             console.log("Correct passcode entered " + function_passcode + " (" + inputtxt + ")")
              return true;
          }
         else {
+             console.log("Incorrect passcode entered " + function_passcode + " (" + inputtxt + ")")
              return false;
         }
 }
@@ -147,7 +149,7 @@ function deleteProfile()
     $('#edit').hide();
     $('#profile_selector').show();
     $('#btn_controls').show();
-    //$('#status').slideDown();
+    $('#status').slideDown();
     $('#profile_table').slideUp();
     $('#e2').select2('val', 0);
     graph.profile.points.show = false;
@@ -353,7 +355,7 @@ function abortTask()
 function enterNewMode()
 {
     state="EDIT"
-    //$('#status').slideUp();
+    $('#status').slideUp();
     $('#edit').show();
     $('#profile_selector').hide();
     $('#btn_controls').hide();
@@ -370,7 +372,7 @@ function enterEditMode()
 {
     $("#nav_cancel").hide();
     state="EDIT"
-    //$('#status').slideUp();
+    $('#status').slideUp();
     $('#edit').show();
     $('#profile_selector').hide();
     $('#btn_controls').hide();
@@ -391,7 +393,7 @@ function leaveEditMode()
     $('#edit').hide();
     $('#profile_selector').show();
     $('#btn_controls').show();
-    //$('#status').slideDown();
+    $('#status').slideDown();
     $('#profile_table').slideUp();
     graph.profile.points.show = false;
     graph.profile.draggable = false;
@@ -478,10 +480,8 @@ function get_tick_size() {
 switch(time_scale_profile){
   case "s":
     return 1;
-    return 3600;
   case "m":
     return 60;
-    //return 3600;
   case "h":
     return 3600;
   }
@@ -491,10 +491,8 @@ return 3600;
 function get_tick_size_mt() {
 switch(time_scale_profile){
   case "s":
-    //return 1;
     return 3600;
   case "m":
-    //return 60;
     return 3600;
   case "h":
     return 3600;
@@ -748,6 +746,7 @@ $(document).ready(function()
                     updateProgress(parseFloat(x.runtime)/parseFloat(x.totaltime)*100);
                     $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     $('#target_temp').html(parseInt(x.target));
+                    $('#cost').html(x.currency_type + parseFloat(x.cost).toFixed(2));
 
                     // WANT TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
