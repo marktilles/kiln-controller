@@ -14,6 +14,7 @@ var temp_scale_display = "C";
 var kwh_rate = 0.26;
 var currency_type = "EUR";
 var function_passcode = "ABCDE";
+var kw_elements = "1";
 
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
@@ -36,7 +37,7 @@ function checkPasscode () {
              return true;
          }
         else {
-             console.log("Incorrect passcode entered " + function_passcode + " (" + inputtxt + ")")
+             console.log("Incorrect passcode entered: " + inputtxt + " (" + function_passcode + ")")
              return false;
         }
 }
@@ -126,7 +127,7 @@ function updateProfile(id)
     var job_time = new Date(job_seconds * 1000).toISOString().substr(11, 8);
     $('#sel_prof').html(profiles[id].name);
     $('#sel_prof_eta').html(job_time);
-    $('#sel_prof_cost').html(kwh + ' kWh ('+ currency_type +': '+ cost +')');
+    //$('#sel_prof_cost').html(kwh + ' kWh ('+ currency_type +': '+ cost +')');
     graph.profile.data = profiles[id].data;
     graph.plot = $.plot("#graph_container", [ graph.profile, graph.live ] , getOptions());
 }

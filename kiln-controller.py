@@ -337,7 +337,6 @@ def get_config():
         "pid_kp": config.pid_kp,
         "pid_ki": config.pid_ki,
         "pid_kd": config.pid_kd,
-        "oven_kw": config.oven_kw,
         "kiln_name": config.kiln_name,
         "service_running_led_gpio": config.service_running_led_gpio,
         "function_passcode": config.function_passcode,
