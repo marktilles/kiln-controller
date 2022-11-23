@@ -26,7 +26,6 @@ log_level = logging.INFO
 log_format = '%(asctime)s %(levelname)s %(name)s: %(message)s'
 
 ### Server
-#listening_ip = "0.0.0.0"
 listening_port = 8081
 
 ########################################################################
@@ -39,8 +38,6 @@ listening_port = 8081
 kwh_rate        = 1.3800  # cost per kilowatt hour per currency_type to calculate cost to run job
 kw_elements     = 10.000 # if the kiln elements are on, the wattage in kilowatts
 currency_type   = ""    # Currency Symbol to show when calculating cost to run job
-###### NEED TO FIGURE OUT WHY REMOVING THIS KILLS THE VARIABLE READ FUNCTION
-oven_kw         = 10000   # Watt capacity of oven
 
 ########################################################################
 #

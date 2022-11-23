@@ -11,7 +11,7 @@ from lib.max31856 import MAX31856
 ########################################################################
 #
 #   General options
-kiln_name	= "Rhode"
+kiln_name = "Rhode"
 function_passcode = "unni"
 
 # GPIO value for blinking LED while service is running.
@@ -19,21 +19,25 @@ function_passcode = "unni"
 # Set to "false" if not desired.
 service_running_led = True
 service_running_led_gpio = 6 # Old system
-#service_running_led_gpio = 16 # New develpment system
+#service_running_led_gpio = 16 # New development system
 
 ### Logging
 log_level = logging.INFO
 log_format = '%(asctime)s %(levelname)s %(name)s: %(message)s'
 
 ### Server
-listening_ip = "0.0.0.0"
 listening_port = 8081
 
-### Cost Estimate
-# Mark's cost June 2021 Vattenfall all taxes and fees SEK 42,64 => 42,64 /kWt
-kwh_rate        = 1.380  # Rate in currency_type to calculate cost to run job
-currency_type   = "Kr"    # Currency Symbol to show when calculating cost to run job
-oven_kw         = 5000    # Watt capacity of oven
+########################################################################
+# Cost Information
+#
+# This is used to calculate a cost estimate before a run. It's also used
+# to produce the actual cost during a run. My kiln has three
+# elements that when my switches are set to high, consume 9460 watts.
+
+kwh_rate        = 1.3800  # cost per kilowatt hour per currency_type to calculate cost to run job
+kw_elements     = 10.000 # if the kiln elements are on, the wattage in kilowatts
+currency_type   = ""    # Currency Symbol to show when calculating cost to run job
 
 ########################################################################
 #
@@ -94,7 +98,7 @@ pid_kd = 200  # Derivative
 #
 # this setting is deprecated and is no longer used. this happens by
 # default and is the expected behavior.
-stop_integral_windup = True
+#stop_integral_windup = True
 
 ########################################################################
 #
@@ -140,7 +144,7 @@ kiln_must_catch_up = True
 # the elements are either 100% on because the kiln is too cold
 # or 100% off because the kiln is too hot. No integral builds up
 # outside the window. The bigger you make the window, the more
-# integral you will accumulate.
+# integral you will accumulate.This should be a positive integer.
 pid_control_window = 5 #degrees
 ignore_pid_control_window_until = 80 # degrees, ignore over-swings until this temp
 
@@ -151,12 +155,6 @@ ignore_pid_control_window_until = 80 # degrees, ignore over-swings until this te
 # CHEMATEX OVEN  thermocouple_offset = -0.5
 thermocouple_offset = 0
 
-# some kilns/thermocouples start erroneously reporting "short"
-# errors at higher temperatures due to plasma forming in the kiln.
-# Set this to False to ignore these errors and assume the temperature
-# reading was correct anyway
-honour_theromocouple_short_errors = False
-
 # number of samples of temperature to average.
 # If you suffer from the high temperature kiln issue and have set
 # honour_theromocouple_short_errors to False,
@@ -166,13 +164,25 @@ temperature_average_samples = 40
 # Thermocouple AC frequency filtering - set to True if in a 50Hz locale, else leave at False for 60Hz locale
 ac_freq_50hz = True
 
+########################################################################
+# Emergencies - or maybe not
+########################################################################
 # There are all kinds of emergencies that can happen including:
 # - temperature is too high (emergency_shutoff_temp exceeded)
 # - lost connection to thermocouple
 # - unknown error with thermocouple
 # - too many errors in a short period from thermocouple
-# and some people just want to ignore all of that and just log the emergencies but do not quit
-ignore_emergencies = False
+# but in some cases, you might want to ignore a specific error, log it,
+# and continue running your profile.
+ignore_temp_too_high = False
+ignore_lost_connection_tc = False
+ignore_unknown_tc_error = False
+ignore_too_many_tc_errors = False
+# some kilns/thermocouples start erroneously reporting "short"
+# errors at higher temperatures due to plasma forming in the kiln.
+# Set this to True to ignore these errors and assume the temperature
+# reading was correct anyway
+ignore_tc_short_errors = False
 
 ########################################################################
 # automatic restarts - if you have a power brown-out and the raspberry pi
@@ -187,3 +197,11 @@ ignore_emergencies = False
 automatic_restarts = True
 automatic_restart_window = 15 # max minutes since power outage
 automatic_restart_state_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ),'state.json'))
+
+########################################################################
+# load kiln profiles from this directory
+# created a repo where anyone can contribute profiles. The objective is
+# to load profiles from this repository by default.
+# See https://github.com/jbruce12000/kiln-profiles
+kiln_profiles_directory = os.path.abspath(os.path.join(os.path.dirname( __file__ ),"storage", "profiles"))
+
