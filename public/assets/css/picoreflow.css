@@ -74,11 +74,11 @@ body {
 }
 
 .ds-title {
+    width: 90px;
     display: inline-block;
     font-size: 10px;
     height: 18px;
     line-height: 18px;
-    width: 100px;
     border-right: 1px solid #b9b6af;
     vertical-align: top;
     text-align: center;
@@ -87,11 +87,11 @@ body {
 }
 
 .ds-title-small {
+    width: 80px;
     display: inline-block;
     font-size: 10px;
     height: 18px;
     line-height: 18px;
-    width: 85px;
     border-right: 1px solid #b9b6af;
     vertical-align: top;
     text-align: center;
@@ -100,7 +100,15 @@ body {
 }
 
 .ds-num {
-    width: 100px;
+    width: 90px;
+    font-family: "Digi";
+    border-right: 1px solid #b9b6af;
+    white-space: nowrap;
+    text-shadow: 0 0 25px rgba(0, 0, 0, 1);
+}
+
+.ds-num-small {
+    width: 80px;
     font-family: "Digi";
     border-right: 1px solid #b9b6af;
     white-space: nowrap;

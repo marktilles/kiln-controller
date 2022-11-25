@@ -332,6 +332,7 @@ def get_config():
         "time_scale_slope": config.time_scale_slope,
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
+        "kw_elements": config.kw_elements,
         "currency_type": config.currency_type,
         # ADDED TO PORT IN MORE INFO FROM BACKEND
         "pid_kp": config.pid_kp,

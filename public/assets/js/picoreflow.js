@@ -14,7 +14,7 @@ var temp_scale_display = "C";
 var kwh_rate = 0.26;
 var currency_type = "EUR";
 var function_passcode = "ABCDE";
-var kw_elements = "1";
+var kw_elements = 99999;
 
 var protocol = 'ws:';
 if (window.location.protocol == 'https:') {
@@ -746,7 +746,9 @@ $(document).ready(function()
                     updateProgress(parseFloat(x.runtime)/parseFloat(x.totaltime)*100);
                     $('#state').html('<span class="glyphicon glyphicon-time" style="font-size: 22px; font-weight: normal"></span><span style="font-family: Digi; font-size: 28px;">' + eta + ' </span><span class=ds-text-small>&#9832;&#xfe0e; ' + heat_now + '%</span>');
                     $('#target_temp').html(parseInt(x.target));
-                    $('#cost').html(x.currency_type + parseFloat(x.cost).toFixed(2));
+                    //$('#cost').html(x.currency_type + parseFloat(x.cost).toFixed(2));
+                    $('#cost').html(parseFloat(x.cost).toFixed(2));
+                    $('#kwh').html((x.cost / kwh_rate).toFixed(2));
 
                     // WANT TO CHANGE BEHAVIOR OF THE LAMPS ON WEB PAGE
                     // Turn on/off relabeled web page icons, now labeled running and idle
@@ -862,10 +864,17 @@ $(document).ready(function()
             kiln_must_catch_up = x.kiln_must_catch_up;
             pid_control_window = x.pid_control_window;
             ignore_pid_control_window_until = x.ignore_pid_control_window_until;
+
+            $("#show_BACKEND_FUNCTION_1").hide(); // Hide this optional function by default
+            $('#currency_type').html(x.currency_type);
+            // MARK TILLES
+            $('#kw_elements').html(kw_elements);
+            //$('#capacity').html(10*1000);
+            //////
+            $("#kiln_name").html(kiln_name); // Define variable for web instance
             $("#pid_kp").html(pid_kp); // Define variable for web instance
             $("#pid_ki").html(pid_ki); // Define variable for web instance
             $("#pid_kd").html(pid_kd); // Define variable for web instance
-            $("#kiln_name").html(kiln_name); // Define variable for web instance
             $("#emerg_temp").html(emergency_shutoff_temp); // Define variable for web instance
             $("#warnat").html(warnat); // Define variable for web instance
             if (kiln_must_catch_up == true)

@@ -34,10 +34,12 @@ listening_port = 8081
 # This is used to calculate a cost estimate before a run. It's also used
 # to produce the actual cost during a run. My kiln has three
 # elements that when my switches are set to high, consume 9460 watts.
-
-kwh_rate        = 1.3800  # cost per kilowatt hour per currency_type to calculate cost to run job
-kw_elements     = 10.000 # if the kiln elements are on, the wattage in kilowatts
-currency_type   = ""    # Currency Symbol to show when calculating cost to run job
+#1,1451 net avgift
+#0,4364 kwh price
+#1,5815 total
+kwh_rate        = 1.5815  # cost per kilowatt hour per currency_type to calculate cost to run job
+kw_elements     = 4.001 # if the kiln elements are on, the wattage in kilowatts
+currency_type   = "SEK"    # Currency Symbol to show when calculating cost to run job
 
 ########################################################################
 #

@@ -62,20 +62,22 @@
    <div class="ds-title-panel">
     <div class="ds-title">Sensor Temp</div>
     <div class="ds-title">Target Temp</div>
-    <div class="ds-title">Cost in kr</div>
+    <div class="ds-title">Cost (<span id="currency_type"></span>)</div>
+    <div class="ds-title-small">kWh (<span id="kw_elements"></span>)</div>
     <div class="ds-title-small"><span id="kiln_name"></span><span id="show_BACKEND_FUNCTION_2"><a onClick="BACKEND_FUNCTION_2();"> Switch</a></span></div>
     <div class="ds-title-small">pid=<span id="pid_kp"></span> <span id="pid_ki"></span> <span id="pid_kd"></span></div>
     <div class="ds-title-small">Catch-up: <span id="catch_up_max"></span></div>
     <div class="ds-title-small">Warn at: <span id="warnat"></span></div>
     <div class="ds-title-small">Emerg off: <span id="emerg_temp"></span></div>
-    <div class="ds-title-small"><a onClick="BACKEND_FUNCTION_1();">Custom Fn</a></b></font></div>
+    <div class="ds-title-small"><span id="show_BACKEND_FUNCTION_1"><a onClick="BACKEND_FUNCTION_1();">Custom Fn</a></span></div>
     <div class="ds-title ds-state pull-right" style="border-left: 1px solid #ccc;">&nbsp;Heating&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Idle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hazard&nbsp;&nbsp;&nbsp;&nbsp;Sched&nbsp;&nbsp;&nbsp;</div>
    </div>
    <div class="clearfix"></div>
    <div class="ds-panel">
     <div class="display ds-num"><span id="act_temp">---</span><span class="ds-unit" id="act_temp_scale" >&deg;C</span></div>
-    <div class="display ds-num ds-target"><span id="target_temp">---</span><span class="ds-unit" id="target_temp_scale">&deg;C</span></div>
-    <div class="display ds-num ds-cost"><span id="cost">0.00</span><span class="ds-unit" id="cost"></span></div>
+    <div class="display ds-num"><span id="target_temp">---</span><span class="ds-unit" id="target_temp_scale">&deg;C</span></div>
+    <div class="display ds-num"><span id="cost">---</span></span></div>
+    <div class="display ds-num-small"><span id="kwh">---</span></div>
     <div class="display ds-num ds-text" id="state"></div>
     <div class="display pull-right ds-state" style="padding-right:0"><span class="ds-led" id="heat">&#9832;&#xfe0e;</span><span class="ds-led" id="running">&#9728;&#xfe0e;</span><span class="ds-led" id="idle">&#9728;&#xfe0e;</span><span class="ds-led" id="hazard">&#73;&#xfe0e;</span><span class="ds-led" id="timer">&#x29D6;&#xfe0e;</span></div>
    </div>
