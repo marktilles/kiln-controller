@@ -37,8 +37,8 @@ listening_port = 8081
 #1,1451	net avgift
 #0,4364	kwh price
 #1,5815	total
-kwh_rate        =  1.5815  # cost per kilowatt hour per currency_type to calculate cost to run job
-kw_elements     = 10.0001 # if the kiln elements are on, the wattage in kilowatts
+kwh_rate        =  1.582  # cost per kilowatt hour per currency_type to calculate cost to run job
+kw_elements     = 10.001 # if the kiln elements are on, the wattage in kilowatts
 currency_type   = "SEK"   # Currency Symbol to show when calculating cost to run job
 
 ########################################################################
