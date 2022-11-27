@@ -1,0 +1,16 @@
+Hi. To test out or use my branch,
+
+Just first backup your installation folder, then and copy these files into place, replacing existing files:
+
+config.py 
+kiln-controller.py
+lib/oven.py
+public/favicon.ico
+public/index.html
+public/site-content.html
+public/assets/css/picoreflow.css
+public/assets/js/picoreflow.js
+
+Remember to modify the config.py file to match your system specificaitons, then restart your kiln-controller service and monitor /var/log/syslog and the javascript console in chrome browser för errors.
+
+//Mark
