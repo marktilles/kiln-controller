@@ -2,7 +2,7 @@ Hi. To test out or use my branch,
 
 Just first backup your installation folder, then and copy these files into place, replacing existing files:
 
-config.py 
+config.py (just take the config.py.chematex file and copy it to config.py) 
 kiln-controller.py
 lib/oven.py
 public/favicon.ico
