@@ -49,17 +49,17 @@ function BACKEND_FUNCTION_1() {
    	    {
    	       "cmd": "BACKEND_FUNCTION_1",
   	    }
-  	    ws_control.send(JSON.stringify(cmd));
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>BACKEND_FUNCTION_1 executed</b>", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Performing immediate shutdown and power-off!<br><br>To restart, remove power supply for 15 seconds.</b>", {
                         ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'error', 'success')
+                        type: 'error', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                         align: 'center', // ('left', 'right', or 'center')
                         width: 385, // (integer, or 'auto')
-                        delay: 1000,
-                        allow_dismiss: true,
+                        delay: 0,
+                        allow_dismiss: false,
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
             });
+  	    ws_control.send(JSON.stringify(cmd));
            }
         else
            {
@@ -865,7 +865,7 @@ $(document).ready(function()
             pid_control_window = x.pid_control_window;
             ignore_pid_control_window_until = x.ignore_pid_control_window_until;
 
-            $("#show_BACKEND_FUNCTION_1").hide(); // Hide this optional function by default
+            //$("#show_BACKEND_FUNCTION_1").hide(); // Hide this optional function by default
             $('#currency_type').html(x.currency_type);
             // MARK TILLES
             $('#kw_elements').html(kw_elements);

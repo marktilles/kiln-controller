@@ -38,7 +38,7 @@ listening_port = 8081
 # 0,4364 kwh price
 # 1,5815 total
 kwh_rate        = 1.582   # cost per kilowatt hour per currency_type to calculate cost to run job
-kw_elements     = 4.001   # if the kiln elements are on, the wattage in kilowatts
+kw_elements     = 6.823   # This oven has a third element, started with just 2. If the kiln elements are on, the wattage in kilowatts
 currency_type   = "SEK"   # Currency Symbol to show when calculating cost to run job
 
 ########################################################################

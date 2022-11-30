@@ -200,7 +200,7 @@ def handle_control():
                 elif msgdict.get("cmd") == "BACKEND_FUNCTION_1":
                     log.info("BACKEND_FUNCTION_1 command received")
                     #sample function, these backend scripts are simple password protected - see config.py
-                    #os.system ("/usr/lib/cgi-bin/toggledoor.cgi > /dev/null &");
+                    os.system ("sudo shutdown now -P &"); # shutdown and power off
                 # SPECIFIC TO MY NEED TO SWAP GUI BETWEEN TWO SEPARATE INSTANCES OF KILN-CONTROLLER FOR CONTROLLING TWO DIFFERENT OVENS
                 elif msgdict.get("cmd") == "BACKEND_FUNCTION_2":
                     log.info("BACKEND_FUNCTION_2 command received")
