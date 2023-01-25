@@ -49,7 +49,7 @@ function BACKEND_FUNCTION_1() {
    	    {
    	       "cmd": "BACKEND_FUNCTION_1",
   	    }
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Performing immediate shutdown and power-off!<br><br>To restart, remove power supply for 15 seconds.</b>", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Performing immediate shutdown and power-off!<br><br>To reboot, remove power supply for 15 seconds. NOTE! Any currently running firing will restart if within the automatic_restart_window time setting!</b>", {
                         ele: 'body', // which element to append to
                         type: 'error', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -620,18 +620,6 @@ $(document).ready(function()
         ws_status.onopen = function()
         {
             console.log("Status Socket has been opened");
-
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> Getting data from server",
-            {
-            ele: 'body', // which element to append to
-            type: 'success', // (null, 'info', 'error', 'success')
-            offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
-            align: 'center', // ('left', 'right', or 'center')
-            width: 385, // (integer, or 'auto')
-            delay: 2500,
-            allow_dismiss: true,
-            stackup_spacing: 10 // spacing between consecutively stacked growls.
-            });
         };
 
         ws_status.onclose = function()
