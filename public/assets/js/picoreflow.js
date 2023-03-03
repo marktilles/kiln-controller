@@ -49,7 +49,7 @@ function BACKEND_FUNCTION_1() {
    	    {
    	       "cmd": "BACKEND_FUNCTION_1",
   	    }
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Performing immediate shutdown and power-off!<br><br>To reboot, remove power supply for 15 seconds. NOTE! Any currently running firing will restart if within the automatic_restart_window time setting!</b>", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Performing immediate shutdown and power-off!<br><br>To reboot, remove power supply for 15 seconds. NOTE! Any curently running firing will restart if within the automatic_restart_window time setting!</b>", {
                         ele: 'body', // which element to append to
                         type: 'error', // (null, 'info', 'error', 'success')
                         offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -76,15 +76,27 @@ function BACKEND_FUNCTION_2() {
               {
    	         "cmd": "BACKEND_FUNCTION_2",
   	      }
-   	      $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>Restarting services, please wait 10 seconds before refreshing browser.</b>", {
+   	      $.bootstrapGrowl("<span class=\"glyphicon glyphicon-time\"></span> <b>Restarting services, please wait 10 seconds before refreshing browser.</b>", {
                 ele: 'body', // which element to append to
                 type: 'info', // (null, 'info', 'error', 'success')
                 offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
                 align: 'center', // ('left', 'right', or 'center')
-                width: 385, // (integer, or 'auto')
+                width: 550, // (integer, or 'auto')
                 delay: 10000,
                 allow_dismiss: true,
                 stackup_spacing: 10 // spacing between consecutively stacked growls.
+              });
+
+              $.bootstrapGrowl("<span class=\"glyphicon glyphicon-list\"></span> <b>Now, once the blue box above disappears, verify<br>(1) The switches on the controller box are set to correct oven;<br>(2) Correct oven power cable is connected to the power brick;<br>(3) Press the \"<span class=\"glyphicon glyphicon-repeat\"></span>\" refresh symbol on the web browser (above).</b>", {
+                ele: 'body', // which element to append to
+                type: 'error', // (null, 'info', 'error', 'success')
+                offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
+                align: 'center', // ('left', 'right', or 'center')
+                width: 550, // (integer, or 'auto')
+                delay: 0,
+                allow_dismiss: false,
+                stackup_spacing: 10 // spacing between consecutively stacked growls.
+
               });
   	      ws_control.send(JSON.stringify(cmd));
            }
@@ -624,12 +636,12 @@ $(document).ready(function()
 
         ws_status.onclose = function()
         {
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR 1:</b><br/>Status Websocket not available", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR:</b><br/>Services being restarted please wait; Status Websocket not available", {
             ele: 'body', // which element to append to
             type: 'error', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
             align: 'center', // ('left', 'right', or 'center')
-            width: 385, // (integer, or 'auto')
+            width: 550, // (integer, or 'auto')
             delay: 5000,
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
