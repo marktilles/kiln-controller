@@ -87,7 +87,7 @@ function BACKEND_FUNCTION_2() {
                 stackup_spacing: 10 // spacing between consecutively stacked growls.
               });
 
-              $.bootstrapGrowl("<span class=\"glyphicon glyphicon-list\"></span> <b>Now, once the blue box above disappears, verify<br>(1) The switches on the controller box are set to correct oven;<br>(2) Correct oven power cable is connected to the power brick;<br>(3) Press the \"<span class=\"glyphicon glyphicon-repeat\"></span>\" refresh symbol on the web browser (above).</b>", {
+              $.bootstrapGrowl("<span class=\"glyphicon glyphicon-list\"></span> <b>Now, once the blue text above disappears, verify<br>(1) The switches on the controller box are set to correct oven;<br>(2) Correct oven power cable is connected to the power brick;<br>(3) Press the \"<span class=\"glyphicon glyphicon-repeat\"></span>\" refresh symbol on the web browser (above).</b>", {
                 ele: 'body', // which element to append to
                 type: 'error', // (null, 'info', 'error', 'success')
                 offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
