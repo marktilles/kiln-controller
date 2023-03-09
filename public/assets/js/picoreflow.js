@@ -87,7 +87,7 @@ function BACKEND_FUNCTION_2() {
                 stackup_spacing: 10 // spacing between consecutively stacked growls.
               });
 
-              $.bootstrapGrowl("<span class=\"glyphicon glyphicon-list\"></span> <b>Now, once the blue text above disappears, verify<br>(1) The switches on the controller box are set to correct oven;<br>(2) Correct oven power cable is connected to the power brick;<br>(3) Press the \"<span class=\"glyphicon glyphicon-repeat\"></span>\" refresh symbol on the web browser (above).</b>", {
+              $.bootstrapGrowl("<span class=\"glyphicon glyphicon-list\"></span> <b>Now, once the blue \"Restarting services\" text above disappears, verify<br>(1) The switches on the controller box are set to correct oven;<br>(2) Correct oven power cable is connected to the power brick;<br>(3) Press the \"<span class=\"glyphicon glyphicon-repeat\"></span>\" refresh symbol on the web browser (above).</b>", {
                 ele: 'body', // which element to append to
                 type: 'error', // (null, 'info', 'error', 'success')
                 offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -636,7 +636,7 @@ $(document).ready(function()
 
         ws_status.onclose = function()
         {
-            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR:</b><br/>Services being restarted please wait; Status Websocket not available", {
+            $.bootstrapGrowl("<span class=\"glyphicon glyphicon-exclamation-sign\"></span> <b>ERROR:</b><br/>Status Websocket not available", {
             ele: 'body', // which element to append to
             type: 'error', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 250}, // 'top', or 'bottom'
@@ -850,6 +850,7 @@ $(document).ready(function()
             time_scale_slope = x.time_scale_slope;
             time_scale_profile = x.time_scale_profile;
             kwh_rate = x.kwh_rate;
+            $('#kwh_rate').html(kwh_rate);
             kw_elements = x.kw_elements;
             currency_type = x.currency_type;
 
